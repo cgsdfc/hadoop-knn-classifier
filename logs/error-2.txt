@@ -1,0 +1,79 @@
+cong@hadoop100:~/Code/demo$ ./KNN/run-demo.sh 
+2021-10-01 06:26:12,246 INFO client.RMProxy: Connecting to ResourceManager at hadoop101/192.168.10.101:8032
+2021-10-01 06:26:13,608 WARN mapreduce.JobResourceUploader: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+2021-10-01 06:26:13,776 INFO mapreduce.JobResourceUploader: Disabling Erasure Coding for path: /tmp/hadoop-yarn/staging/cong/.staging/job_1633094725331_0001
+2021-10-01 06:26:14,072 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2021-10-01 06:26:15,693 INFO input.FileInputFormat: Total input files to process : 1
+2021-10-01 06:26:15,880 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2021-10-01 06:26:16,040 WARN hdfs.DataStreamer: Caught exception
+java.lang.InterruptedException
+        at java.lang.Object.wait(Native Method)
+        at java.lang.Thread.join(Thread.java:1252)
+        at java.lang.Thread.join(Thread.java:1326)
+        at org.apache.hadoop.hdfs.DataStreamer.closeResponder(DataStreamer.java:986)
+        at org.apache.hadoop.hdfs.DataStreamer.endBlock(DataStreamer.java:640)
+        at org.apache.hadoop.hdfs.DataStreamer.run(DataStreamer.java:810)
+2021-10-01 06:26:16,163 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2021-10-01 06:26:16,276 INFO mapreduce.JobSubmitter: number of splits:1
+2021-10-01 06:26:16,788 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2021-10-01 06:26:16,928 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1633094725331_0001
+2021-10-01 06:26:16,936 INFO mapreduce.JobSubmitter: Executing with tokens: []
+2021-10-01 06:26:17,357 INFO conf.Configuration: resource-types.xml not found
+2021-10-01 06:26:17,359 INFO resource.ResourceUtils: Unable to find 'resource-types.xml'.
+2021-10-01 06:26:17,905 INFO impl.YarnClientImpl: Submitted application application_1633094725331_0001
+2021-10-01 06:26:18,008 INFO mapreduce.Job: The url to track the job: http://hadoop101:8088/proxy/application_1633094725331_0001/
+2021-10-01 06:26:18,015 INFO mapreduce.Job: Running job: job_1633094725331_0001
+2021-10-01 06:26:38,931 INFO mapreduce.Job: Job job_1633094725331_0001 running in uber mode : false
+2021-10-01 06:26:38,939 INFO mapreduce.Job:  map 0% reduce 0%
+2021-10-01 06:26:52,606 INFO mapreduce.Job: Task Id : attempt_1633094725331_0001_m_000000_0, Status : FAILED
+[2021-10-01 06:26:50.683]Container [pid=2285,containerID=container_1633094725331_0001_01_000002] is running 308914688B beyond the 'VIRTUAL' memory limit. Current usage: 94.4 MB of 1 GB physical memory used; 2.4 GB of 2.1 GB virtual memory used. Killing container.
+Dump of the process-tree for container_1633094725331_0001_01_000002 :
+        |- PID PPID PGRPID SESSID CMD_NAME USER_MODE_TIME(MILLIS) SYSTEM_TIME(MILLIS) VMEM_USAGE(BYTES) RSSMEM_USAGE(PAGES) FULL_CMD_LINE
+        |- 2285 2283 2285 2285 (bash) 0 0 10162176 694 /bin/bash -c /opt/module/jdk1.8.0_212/bin/java -Djava.net.preferIPv4Stack=true -Dhadoop.metrics.log.level=WARN   -Xmx820m -Djava.io.tmpdir=/opt/module/hadoop-3.1.3/data/nm-local-dir/usercache/cong/appcache/application_1633094725331_0001/container_1633094725331_0001_01_000002/tmp -Dlog4j.configuration=container-log4j.properties -Dyarn.app.container.log.dir=/opt/module/hadoop-3.1.3/logs/userlogs/application_1633094725331_0001/container_1633094725331_0001_01_000002 -Dyarn.app.container.log.filesize=0 -Dhadoop.root.logger=INFO,CLA -Dhadoop.root.logfile=syslog org.apache.hadoop.mapred.YarnChild 192.168.10.102 36485 attempt_1633094725331_0001_m_000000_0 2 1>/opt/module/hadoop-3.1.3/logs/userlogs/application_1633094725331_0001/container_1633094725331_0001_01_000002/stdout 2>/opt/module/hadoop-3.1.3/logs/userlogs/application_1633094725331_0001/container_1633094725331_0001_01_000002/stderr  
+        |- 2295 2285 2285 2285 (java) 293 55 2553610240 23475 /opt/module/jdk1.8.0_212/bin/java -Djava.net.preferIPv4Stack=true -Dhadoop.metrics.log.level=WARN -Xmx820m -Djava.io.tmpdir=/opt/module/hadoop-3.1.3/data/nm-local-dir/usercache/cong/appcache/application_1633094725331_0001/container_1633094725331_0001_01_000002/tmp -Dlog4j.configuration=container-log4j.properties -Dyarn.app.container.log.dir=/opt/module/hadoop-3.1.3/logs/userlogs/application_1633094725331_0001/container_1633094725331_0001_01_000002 -Dyarn.app.container.log.filesize=0 -Dhadoop.root.logger=INFO,CLA -Dhadoop.root.logfile=syslog org.apache.hadoop.mapred.YarnChild 192.168.10.102 36485 attempt_1633094725331_0001_m_000000_0 2 
+
+[2021-10-01 06:26:50.839]Container killed on request. Exit code is 143
+[2021-10-01 06:26:50.878]Container exited with a non-zero exit code 143. 
+
+2021-10-01 06:26:57,986 INFO mapreduce.Job: Task Id : attempt_1633094725331_0001_m_000000_1, Status : FAILED
+[2021-10-01 06:26:56.894]Container [pid=2329,containerID=container_1633094725331_0001_01_000003] is running 304613888B beyond the 'VIRTUAL' memory limit. Current usage: 82.5 MB of 1 GB physical memory used; 2.4 GB of 2.1 GB virtual memory used. Killing container.
+Dump of the process-tree for container_1633094725331_0001_01_000003 :
+        |- PID PPID PGRPID SESSID CMD_NAME USER_MODE_TIME(MILLIS) SYSTEM_TIME(MILLIS) VMEM_USAGE(BYTES) RSSMEM_USAGE(PAGES) FULL_CMD_LINE
+        |- 2339 2329 2329 2329 (java) 247 47 2549309440 20436 /opt/module/jdk1.8.0_212/bin/java -Djava.net.preferIPv4Stack=true -Dhadoop.metrics.log.level=WARN -Xmx820m -Djava.io.tmpdir=/opt/module/hadoop-3.1.3/data/nm-local-dir/usercache/cong/appcache/application_1633094725331_0001/container_1633094725331_0001_01_000003/tmp -Dlog4j.configuration=container-log4j.properties -Dyarn.app.container.log.dir=/opt/module/hadoop-3.1.3/logs/userlogs/application_1633094725331_0001/container_1633094725331_0001_01_000003 -Dyarn.app.container.log.filesize=0 -Dhadoop.root.logger=INFO,CLA -Dhadoop.root.logfile=syslog org.apache.hadoop.mapred.YarnChild 192.168.10.102 36485 attempt_1633094725331_0001_m_000000_1 3 
+        |- 2329 2327 2329 2329 (bash) 0 0 10162176 678 /bin/bash -c /opt/module/jdk1.8.0_212/bin/java -Djava.net.preferIPv4Stack=true -Dhadoop.metrics.log.level=WARN   -Xmx820m -Djava.io.tmpdir=/opt/module/hadoop-3.1.3/data/nm-local-dir/usercache/cong/appcache/application_1633094725331_0001/container_1633094725331_0001_01_000003/tmp -Dlog4j.configuration=container-log4j.properties -Dyarn.app.container.log.dir=/opt/module/hadoop-3.1.3/logs/userlogs/application_1633094725331_0001/container_1633094725331_0001_01_000003 -Dyarn.app.container.log.filesize=0 -Dhadoop.root.logger=INFO,CLA -Dhadoop.root.logfile=syslog org.apache.hadoop.mapred.YarnChild 192.168.10.102 36485 attempt_1633094725331_0001_m_000000_1 3 1>/opt/module/hadoop-3.1.3/logs/userlogs/application_1633094725331_0001/container_1633094725331_0001_01_000003/stdout 2>/opt/module/hadoop-3.1.3/logs/userlogs/application_1633094725331_0001/container_1633094725331_0001_01_000003/stderr  
+
+[2021-10-01 06:26:56.956]Container killed on request. Exit code is 143
+[2021-10-01 06:26:56.981]Container exited with a non-zero exit code 143. 
+
+2021-10-01 06:27:04,116 INFO mapreduce.Job: Task Id : attempt_1633094725331_0001_m_000000_2, Status : FAILED
+[2021-10-01 06:27:03.045]Container [pid=2367,containerID=container_1633094725331_0001_01_000004] is running 307862016B beyond the 'VIRTUAL' memory limit. Current usage: 88.2 MB of 1 GB physical memory used; 2.4 GB of 2.1 GB virtual memory used. Killing container.
+Dump of the process-tree for container_1633094725331_0001_01_000004 :
+        |- PID PPID PGRPID SESSID CMD_NAME USER_MODE_TIME(MILLIS) SYSTEM_TIME(MILLIS) VMEM_USAGE(BYTES) RSSMEM_USAGE(PAGES) FULL_CMD_LINE
+        |- 2367 2365 2367 2367 (bash) 1 0 10162176 668 /bin/bash -c /opt/module/jdk1.8.0_212/bin/java -Djava.net.preferIPv4Stack=true -Dhadoop.metrics.log.level=WARN   -Xmx820m -Djava.io.tmpdir=/opt/module/hadoop-3.1.3/data/nm-local-dir/usercache/cong/appcache/application_1633094725331_0001/container_1633094725331_0001_01_000004/tmp -Dlog4j.configuration=container-log4j.properties -Dyarn.app.container.log.dir=/opt/module/hadoop-3.1.3/logs/userlogs/application_1633094725331_0001/container_1633094725331_0001_01_000004 -Dyarn.app.container.log.filesize=0 -Dhadoop.root.logger=INFO,CLA -Dhadoop.root.logfile=syslog org.apache.hadoop.mapred.YarnChild 192.168.10.102 36485 attempt_1633094725331_0001_m_000000_2 4 1>/opt/module/hadoop-3.1.3/logs/userlogs/application_1633094725331_0001/container_1633094725331_0001_01_000004/stdout 2>/opt/module/hadoop-3.1.3/logs/userlogs/application_1633094725331_0001/container_1633094725331_0001_01_000004/stderr  
+        |- 2377 2367 2367 2367 (java) 266 36 2552557568 21900 /opt/module/jdk1.8.0_212/bin/java -Djava.net.preferIPv4Stack=true -Dhadoop.metrics.log.level=WARN -Xmx820m -Djava.io.tmpdir=/opt/module/hadoop-3.1.3/data/nm-local-dir/usercache/cong/appcache/application_1633094725331_0001/container_1633094725331_0001_01_000004/tmp -Dlog4j.configuration=container-log4j.properties -Dyarn.app.container.log.dir=/opt/module/hadoop-3.1.3/logs/userlogs/application_1633094725331_0001/container_1633094725331_0001_01_000004 -Dyarn.app.container.log.filesize=0 -Dhadoop.root.logger=INFO,CLA -Dhadoop.root.logfile=syslog org.apache.hadoop.mapred.YarnChild 192.168.10.102 36485 attempt_1633094725331_0001_m_000000_2 4 
+
+[2021-10-01 06:27:03.100]Container killed on request. Exit code is 143
+[2021-10-01 06:27:03.148]Container exited with a non-zero exit code 143. 
+
+2021-10-01 06:27:17,927 INFO mapreduce.Job:  map 100% reduce 100%
+2021-10-01 06:27:20,121 INFO mapreduce.Job: Job job_1633094725331_0001 failed with state FAILED due to: Task failed task_1633094725331_0001_m_000000
+Job failed as tasks failed. failedMaps:1 failedReduces:0 killedMaps:0 killedReduces: 0
+
+2021-10-01 06:27:20,510 INFO mapreduce.Job: Counters: 13
+        Job Counters 
+                Failed map tasks=4
+                Killed reduce tasks=1
+                Launched map tasks=4
+                Other local map tasks=3
+                Data-local map tasks=1
+                Total time spent by all maps in occupied slots (ms)=26654
+                Total time spent by all reduces in occupied slots (ms)=0
+                Total time spent by all map tasks (ms)=26654
+                Total vcore-milliseconds taken by all map tasks=26654
+                Total megabyte-milliseconds taken by all map tasks=27293696
+        Map-Reduce Framework
+                CPU time spent (ms)=0
+                Physical memory (bytes) snapshot=0
+                Virtual memory (bytes) snapshot=0
+cong@hadoop100:~/Code/demo$ echo $?
+1

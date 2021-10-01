@@ -3,7 +3,7 @@
 # 运行本程序
 
 input_data=/demo/CarOwners.csv
-output_dir=/demo/res
+output_dir=/demo/res1
 params_file=/demo/KnnParams.txt
 jar_file=/home/cong/Code/demo/target/demo-1.0.jar
 class_name=com.example.KnnPattern
