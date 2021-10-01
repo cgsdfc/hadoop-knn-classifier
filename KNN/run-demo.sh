@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# 运行本程序
+
 input_data=/demo/CarOwners.csv
 output_dir=/demo/res
 params_file=/demo/KnnParams.txt
