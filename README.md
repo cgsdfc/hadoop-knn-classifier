@@ -80,7 +80,10 @@ $ mvn package # 编译产生 Jar 包。
 ```
 $ cd mapreduce-knn-demo
 ```
-在 KNN 子目录，用户可通过修改 KnnParams.txt 文件来传入参数 K 和测试实例，该文件的各字段的含义如下：
+
+### 配置模型参数和测试实例
+
+用户可通过修改子目录 KNN 下的配置文件 KnnParams.txt 文件来传入参数 K 和测试实例，该文件的各字段的含义如下：
 ```
 K, Age, Income, Status, Gender, Children
 ```
@@ -91,3 +94,13 @@ K, Age, Income, Status, Gender, Children
 它表示 K=5，实例的年龄为67岁，输入为16668，婚姻状态为 Single（单身），性别是男，有三个孩子。
 
 注意：目前本项目仅支持一次运行预测一个测试实例的标签，故 KnnParams.txt 文件必须只有一行。
+
+### 上传数据到 HDFS
+
+训练数据集和配置文件都必须上传到 HDFS 才能被我们的程序访问。
+修改 KNN 子目录下的 upload-data.sh 脚本中的路径，即可完成相关文件的上传。
+
+### 运行程序
+
+完成配置后，修改并运行 KNN 子目录下的 run-demo.sh 脚本即可进行预测。
+脚本运行成功后，可从 HDFS 中下载结果文件
