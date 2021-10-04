@@ -11,7 +11,7 @@ K 近邻分类器（K-Nearest-Neighbors Classifier），简称 KNN 分类器，�
 它的基本思想是：给定训练数据集 Train 和一个测试实例 S，计算 S 和 Train 中所有实例的距离，
 取距离最近的 K 个训练集实例，则预测S的标签为这些实例中占比最大的标签。
 
-KNN 分类器的数学表达如下：
+KNN 分类器的数学表达式如下：
 $$
 Pr(Y=j|X=x_0)=\frac{1}{K} \sum_{i \in N_0} I(y_i = j)
 $$
@@ -62,7 +62,7 @@ Age,Income,Status,Gender,Children,Model
 
 ## 项目构建方法
 
-本项目使用 Maven 作为构建工具，构建过程比较自动化，无须过多人工干涉。
+本项目使用 Maven 作为构建工具，构建过程比较自动化。
 构建本项目的命令如下（以 Ubuntu 操作系统为例）：
 
 ```shell
@@ -76,7 +76,7 @@ $ mvn package # 编译产生 Jar 包。
 
 ## 项目使用方法
 
-项目构建成功后，先进入项目家目录：
+项目构建成功后，先进入项目的根目录：
 ```
 $ cd mapreduce-knn-demo
 ```
@@ -103,7 +103,7 @@ K, Age, Income, Status, Gender, Children
 ### 运行程序
 
 完成配置后，修改并运行 KNN 子目录下的 run-demo.sh 脚本即可进行预测。
-脚本运行成功后，可从 HDFS 中下载结果文件
+脚本运行成功后，可从 HDFS 中下载结果文件。
 
 ## 项目主要目录说明
 
