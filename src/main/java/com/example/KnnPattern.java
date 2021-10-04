@@ -198,57 +198,51 @@ public class KnnPattern {
         }
     }
 
-    // The reducer class accepts the NullWritable and DoubleString objects just
-    // supplied to context and
-    // outputs a NullWritable and a Text object for the final classification.
-    public static class KnnReducer extends Reducer<NullWritable, DoubleString, NullWritable, Text> {
+    // 自定义 Reducer 类型，把 Mapper 产生的数据进行汇总，导出最后的分类结果。
+    // 这里用的策略和 Mapper 是一样的，就是用 TreeMap 保存K-邻域（K个距离最小的实例）。
+    // 但是在最后，我们要从K-邻域中产生一个分类结果，那就是要把占比最大的标签作为最终的分类标签。
+    // 输出 Key 类型：为了增加可读性，我们用一个字符串来说明输出的内容，所以用Text作为类型。
+    // 输出 Value 类型：表示的是分类的结果。
+    public static class KnnReducer extends Reducer<NullWritable, DoubleString, Text, Text> {
+        // 保存K-邻域。
         TreeMap<Double, String> KnnMap = new TreeMap<Double, String>();
+        // 算法参数K。
         int K;
 
+        // 从配置文件获取算法参数K。
         @Override
-        // setup() again is run before the main reduce() method
         protected void setup(Context context) throws IOException, InterruptedException {
             if (context.getCacheFiles() != null && context.getCacheFiles().length > 0) {
-                // Read parameter file using alias established in main()
-                String knnParams = FileUtils.readFileToString(new File("./knnParamFile"));
+                // 读入配置文件。
+                String knnParams = FileUtils.readFileToString(new File("./knnParamFile"), Charset.defaultCharset());
                 StringTokenizer st = new StringTokenizer(knnParams, ",");
-                // Only K is needed from the parameter file by the reducer
+                // 获取第一个字段即可。
                 K = Integer.parseInt(st.nextToken());
             }
         }
 
+        // 对同一个Key下的所有Value进行汇总。注意，我们的Mapper只产生了一个Key值，即NullWritable的单例，
+        // 所以，所有的Value都会被汇总到一起。所以我们只需要一个Reducer即可处理全部数据。
         @Override
-        // The reduce() method accepts the objects the mapper wrote to context: a
-        // NullWritable and a DoubleString
         public void reduce(NullWritable key, Iterable<DoubleString> values, Context context)
                 throws IOException, InterruptedException {
-            // values are the K DoubleString objects which the mapper wrote to context
-            // Loop through these
+            // 把所有距离-标签数据放入TreeMap中进行排序。
             for (DoubleString val : values) {
                 String rModel = val.getModel();
                 double tDist = val.getDistance();
-
-                // Populate another TreeMap with the distance and model information extracted
-                // from the
-                // DoubleString objects and trim it to size K as before.
                 KnnMap.put(tDist, rModel);
+                // 注意不超过K个条目。
                 if (KnnMap.size() > K) {
                     KnnMap.remove(KnnMap.lastKey());
                 }
             }
 
-            // This section determines which of the K values (models) in the TreeMap occurs
-            // most frequently
-            // by means of constructing an intermediate ArrayList and HashMap.
+            // 完成N-领域的构建后，我们要找出出现次数最多的那个标签，作为我们最终预测结果。
 
-            // A List of all the values in the TreeMap.
             List<String> knnList = new ArrayList<String>(KnnMap.values());
-
             Map<String, Integer> freqMap = new HashMap<String, Integer>();
 
-            // Add the members of the list to the HashMap as keys and the number of times
-            // each occurs
-            // (frequency) as values
+            // 统计每个标签（车辆型号）的频次。
             for (int i = 0; i < knnList.size(); i++) {
                 Integer frequency = freqMap.get(knnList.get(i));
                 if (frequency == null) {
@@ -257,10 +251,8 @@ public class KnnPattern {
                     freqMap.put(knnList.get(i), frequency + 1);
                 }
             }
-
-            // Examine the HashMap to determine which key (model) has the highest value
-            // (frequency)
-            String mostCommonModel = null;
+            // 找出频次最大的标签。
+            String mostCommonModel = null; // 最终预测结果。
             int maxFrequency = -1;
             for (Map.Entry<String, Integer> entry : freqMap.entrySet()) {
                 if (entry.getValue() > maxFrequency) {
@@ -268,13 +260,9 @@ public class KnnPattern {
                     maxFrequency = entry.getValue();
                 }
             }
-
-            // Finally write to context another NullWritable as key and the most common
-            // model just counted as value.
-            context.write(NullWritable.get(), new Text(mostCommonModel)); // Use this line to produce a single
-                                                                          // classification
-            // context.write(NullWritable.get(), new Text(KnnMap.toString())); // Use this
-            // line to see all K nearest neighbours and distances
+            // 输出分类结果和K-邻域。
+            context.write(new Text("Result: "), new Text(mostCommonModel));
+            context.write(new Text("K-Nearest-Neighbours: "), new Text(KnnMap.toString()));
         }
     }
 
@@ -282,7 +270,8 @@ public class KnnPattern {
     public static void main(String[] args) throws Exception {
         // 创建配置对象。
         Configuration conf = new Configuration();
-
+        
+        // 命令行参数有误。
         if (args.length != 3) {
             System.err.println("Usage: KnnPattern <in> <out> <parameter file>");
             System.exit(2);
