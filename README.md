@@ -104,3 +104,9 @@ K, Age, Income, Status, Gender, Children
 
 完成配置后，修改并运行 KNN 子目录下的 run-demo.sh 脚本即可进行预测。
 脚本运行成功后，可从 HDFS 中下载结果文件
+
+## 项目主要目录说明
+
+- KNN 目录：脚本、训练集和配置文件。
+- logs 目录：程序运行产生的日志的记录。
+- src 目录：Java 源码目录。
