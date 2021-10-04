@@ -24,19 +24,14 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
+// 驱动类，包裹 Mapper 和 Reducer 类，并实现 main 函数。
 public class KnnPattern {
 
-    // WritableComparable class for a paired Double and String (distance and model)
-    // This is a custom class for MapReduce to pass a double and a String through
-    // context
-    // as one serializable object.
-    // This example only implements the minimum required methods to make this job
-    // run. To be
-    // deployed robustly is should include ToString(), hashCode(),
-    // WritableComparable interface
-    // if this object was intended to be used as a key etc.
+    // 自定义的可序列化类型，保存了测试实例到一个训练实例的距离以及该训练实例的标签。
     public static class DoubleString implements WritableComparable<DoubleString> {
+        // 测试实例（唯一）到某个训练实例的距离。
         private Double distance = 0.0;
+        // 该训练实例的标签。
         private String model = null;
 
         public void set(Double lhs, String rhs) {
@@ -52,33 +47,39 @@ public class KnnPattern {
             return model;
         }
 
+        // 实现序列化的读操作。
         @Override
         public void readFields(DataInput in) throws IOException {
             distance = in.readDouble();
             model = in.readUTF();
         }
 
+        // 实现序列化的写操作。
         @Override
         public void write(DataOutput out) throws IOException {
             out.writeDouble(distance);
             out.writeUTF(model);
         }
 
+        // 实现比较操作。
         @Override
         public int compareTo(DoubleString o) {
             return (this.model).compareTo(o.model);
         }
     }
 
-    // The mapper class accepts an object and text (row identifier and row contents)
-    // and outputs
-    // two MapReduce Writable classes, NullWritable and DoubleString (defined
-    // earlier)
+    // 自定义 Mapper 类型。
+    // 输入 Key 类型为 Object，实际上是一行文本的偏移量，但是我们不需要这个数据，所以设为 Object。
+    // 输入 Value 类型为 Text，即一行文本数据，这是我们关心的数据。
+    // 输出 Key 类型为 NullWritable，表示实际上我们没有输出 Key 数据。
+    // 输出 Value 类型为 DoubleString，这是我们自定义的数据类型，表示计算出来的距离和相应的标签。
     public static class KnnMapper extends Mapper<Object, Text, NullWritable, DoubleString> {
+        // 保存最终计算结果。
         DoubleString distanceAndModel = new DoubleString();
+        // 始终保存不多于K个键值对，用来对计算出的距离进行排序。
         TreeMap<Double, String> KnnMap = new TreeMap<Double, String>();
 
-        // Declaring some variables which will be used throughout the mapper
+        // 算法参数K。
         int K;
 
         double normalisedSAge;
@@ -294,10 +295,9 @@ public class KnnPattern {
         }
     }
 
-    // Main program to run: By calling MapReduce's 'job' API it configures and
-    // submits the MapReduce job.
+    // 主函数。调用 MapReduce 的 Job API 来配置本次运行的相关设定，并且提交任务。
     public static void main(String[] args) throws Exception {
-        // Create configuration
+        // 创建配置对象。
         Configuration conf = new Configuration();
 
         if (args.length != 3) {
@@ -305,29 +305,30 @@ public class KnnPattern {
             System.exit(2);
         }
 
-        // Create job
+        // 创建 Job 对象。
         Job job = Job.getInstance(conf, "Find K-Nearest Neighbour");
+        // 设置要运行的Jar包，即KnnPattern类所在的Jar包。
         job.setJarByClass(KnnPattern.class);
-        // Set the third parameter when running the job to be the parameter file and
-        // give it an alias
-        job.addCacheFile(new URI(args[2] + "#knnParamFile")); // Parameter file containing test data
+        // 把配置文件设定为 CacheFile，则后续各台服务器均可访问它的副本，从而减少小文件的传输开销。
+        job.addCacheFile(new URI(args[2] + "#knnParamFile"));
 
-        // Setup MapReduce job
+        // 设置 MapReduce 任务的自定义类型。
         job.setMapperClass(KnnMapper.class);
         job.setReducerClass(KnnReducer.class);
-        job.setNumReduceTasks(1); // Only one reducer in this design
+        job.setNumReduceTasks(1); // 本项目只需要一个 Reducer 任务。
 
-        // Specify key / value
+        // 设置输出的键值类型。
         job.setMapOutputKeyClass(NullWritable.class);
         job.setMapOutputValueClass(DoubleString.class);
         job.setOutputKeyClass(NullWritable.class);
         job.setOutputValueClass(Text.class);
 
-        // Input (the data file) and Output (the resulting classification)
+        // 设置输入文件（训练数据集）的路径和输出目录的路径。
+        // 分类结果将作为一个文件保存在输出目录下。
         FileInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
-        // Execute job and return status
+        // 等待作业执行完成并返回状态码。
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 }
