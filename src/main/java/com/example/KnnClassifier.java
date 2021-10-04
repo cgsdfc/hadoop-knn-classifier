@@ -26,7 +26,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 // 驱动类，包裹 Mapper 和 Reducer 类，并实现 main 函数。
-public class KnnPattern {
+public class KnnClassifier {
 
     // 自定义的可序列化类型，保存了测试实例到一个训练实例的距离以及该训练实例的标签。
     public static class DoubleString implements WritableComparable<DoubleString> {
@@ -270,17 +270,17 @@ public class KnnPattern {
     public static void main(String[] args) throws Exception {
         // 创建配置对象。
         Configuration conf = new Configuration();
-        
+
         // 命令行参数有误。
         if (args.length != 3) {
-            System.err.println("Usage: KnnPattern <in> <out> <parameter file>");
+            System.err.println("Usage: KnnClassifier <in> <out> <parameter file>");
             System.exit(2);
         }
 
         // 创建 Job 对象。
         Job job = Job.getInstance(conf, "Find K-Nearest Neighbour");
-        // 设置要运行的Jar包，即KnnPattern类所在的Jar包。
-        job.setJarByClass(KnnPattern.class);
+        // 设置要运行的Jar包，即KnnClassifier类所在的Jar包。
+        job.setJarByClass(KnnClassifier.class);
         // 把配置文件设定为 CacheFile，则后续各台服务器均可访问它的副本，从而减少小文件的传输开销。
         job.addCacheFile(new URI(args[2] + "#knnParamFile"));
 
