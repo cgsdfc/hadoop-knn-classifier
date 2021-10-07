@@ -27,7 +27,7 @@ public class KnnClassifier {
         // 设置要运行的Jar包，即KnnClassifier类所在的Jar包。
         job.setJarByClass(KnnClassifier.class);
         // 把配置文件设定为 CacheFile，则后续各台服务器均可访问它的副本，从而减少小文件的传输开销。
-        ConfigureFile.initialize(job, args[2]);
+        KnnConfigFile.initialize(job, args[2]);
 
         // 设置 MapReduce 任务的自定义类型。
         job.setMapperClass(KnnMapper.class);

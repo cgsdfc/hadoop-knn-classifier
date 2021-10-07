@@ -23,14 +23,14 @@ public class KnnMapper extends Mapper<Object, Text, NullWritable, DoubleString> 
     // 始终保存不多于K个键值对，用来对计算出的距离进行排序。
     TreeMap<Double, String> KnnMap = new TreeMap<Double, String>();
 
-    ConfigureFile configureFile;
+    KnnConfigFile configureFile;
 
     // 重写 Mapper 的setup方法，初始化本对象的一些数据。
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
         // 获取配置文件。
         if (context.getCacheFiles() != null && context.getCacheFiles().length > 0) {
-            this.configureFile = new ConfigureFile();
+            this.configureFile = new KnnConfigFile();
         }
     }
 

@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.mapreduce.Job;
 
-public class ConfigureFile {
+public class KnnConfigFile {
 
     public int K;
     public CarOwnerRecord record;
@@ -22,7 +22,7 @@ public class ConfigureFile {
         job.addCacheFile(new URI(basename + "#" + cacheFileBasename));
     }
 
-    public ConfigureFile() throws IOException {
+    public KnnConfigFile() throws IOException {
         String knnParams = FileUtils.readFileToString(new File("./" + cacheFileBasename), Charset.defaultCharset());
         StringTokenizer st = new StringTokenizer(knnParams, ",");
 
