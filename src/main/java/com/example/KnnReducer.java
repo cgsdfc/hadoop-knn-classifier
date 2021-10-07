@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
@@ -19,7 +18,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 // 输出 Value 类型：表示的是分类的结果。
 public class KnnReducer extends Reducer<NullWritable, DoubleString, Text, Text> {
     // 保存K-邻域。
-    TreeMap<Double, String> KnnMap = new TreeMap<Double, String>();
+    KSmallestMap KnnMap;
     // 算法参数K。
     int K;
 
@@ -29,6 +28,7 @@ public class KnnReducer extends Reducer<NullWritable, DoubleString, Text, Text> 
         if (context.getCacheFiles() != null && context.getCacheFiles().length > 0) {
             KnnConfigFile configFile = new KnnConfigFile();
             this.K = configFile.K;
+            this.KnnMap = new KSmallestMap(this.K);
         }
     }
 
@@ -42,10 +42,6 @@ public class KnnReducer extends Reducer<NullWritable, DoubleString, Text, Text> 
             String rModel = val.getModel();
             double tDist = val.getDistance();
             KnnMap.put(tDist, rModel);
-            // 注意不超过K个条目。
-            if (KnnMap.size() > K) {
-                KnnMap.remove(KnnMap.lastKey());
-            }
         }
 
         // 完成N-领域的构建后，我们要找出出现次数最多的那个标签，作为我们最终预测结果。

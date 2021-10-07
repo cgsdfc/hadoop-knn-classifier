@@ -2,7 +2,6 @@ package com.example;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
@@ -17,16 +16,17 @@ public class KnnMapper extends Mapper<Object, Text, NullWritable, DoubleString> 
     // 保存最终计算结果。
     DoubleString distanceAndModel = new DoubleString();
     // 始终保存不多于K个键值对，用来对计算出的距离进行排序。
-    TreeMap<Double, String> KnnMap = new TreeMap<Double, String>();
+    KSmallestMap KnnMap;
 
-    KnnConfigFile configureFile;
+    KnnConfigFile configFile;
 
     // 重写 Mapper 的setup方法，初始化本对象的一些数据。
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
         // 获取配置文件。
         if (context.getCacheFiles() != null && context.getCacheFiles().length > 0) {
-            this.configureFile = new KnnConfigFile();
+            this.configFile = new KnnConfigFile();
+            this.KnnMap = new KSmallestMap(configFile.K);
         }
     }
 
@@ -37,14 +37,10 @@ public class KnnMapper extends Mapper<Object, Text, NullWritable, DoubleString> 
         CarOwnerRecord training_record = new CarOwnerRecord(value.toString());
 
         // 计算训练实例和测试实例的距离。
-        double tDist = CarOwnerRecord.computeDistance(training_record, configureFile.testing_record);
+        double tDist = CarOwnerRecord.computeDistance(training_record, configFile.testing_record);
 
         // 更新距离最小的不超过K个实例的记录。
         KnnMap.put(tDist, training_record.model);
-        // 最多保存K个记录。
-        if (KnnMap.size() > configureFile.K) {
-            KnnMap.remove(KnnMap.lastKey());
-        }
     }
 
     // 在map调用结束后，会调用cleanup方法，我们在这里把保存在knnMap中的数据写入Context中。
