@@ -1,7 +1,5 @@
 package com.example;
 
-import java.net.URI;
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.NullWritable;
@@ -29,7 +27,7 @@ public class KnnClassifier {
         // 设置要运行的Jar包，即KnnClassifier类所在的Jar包。
         job.setJarByClass(KnnClassifier.class);
         // 把配置文件设定为 CacheFile，则后续各台服务器均可访问它的副本，从而减少小文件的传输开销。
-        job.addCacheFile(new URI(args[2] + "#knnParamFile"));
+        ConfigureFile.initialize(job, args[2]);
 
         // 设置 MapReduce 任务的自定义类型。
         job.setMapperClass(KnnMapper.class);

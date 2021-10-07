@@ -15,12 +15,14 @@ public class ConfigureFile {
     public int K;
     public CarOwnerRecord record;
 
+    private static final String cacheFileBasename = "knnParamFile";
+
     public static void initialize(Job job, String basename) throws Exception {
-        job.addCacheFile(new URI(basename + "#knnParamFile"));
+        job.addCacheFile(new URI(basename + "#" + cacheFileBasename));
     }
 
     public ConfigureFile() throws Exception {
-        String knnParams = FileUtils.readFileToString(new File("./knnParamFile"), Charset.defaultCharset());
+        String knnParams = FileUtils.readFileToString(new File("./" + cacheFileBasename), Charset.defaultCharset());
         StringTokenizer st = new StringTokenizer(knnParams, ",");
 
         // 获取参数K和测试实例的字段。
