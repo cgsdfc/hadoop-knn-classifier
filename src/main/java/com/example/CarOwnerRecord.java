@@ -3,7 +3,6 @@ package com.example;
 import java.util.StringTokenizer;
 
 public class CarOwnerRecord {
-    // 保存从配置文件中解析出来的测试实例的字段。
     public double age;
     public double income;
     public String status;
@@ -30,9 +29,7 @@ public class CarOwnerRecord {
         return Double.parseDouble(st.nextToken());
     }
 
-    public CarOwnerRecord(String str) {
-        StringTokenizer st = new StringTokenizer(str, ",");
-
+    public CarOwnerRecord(StringTokenizer st) {
         // 解析各个字段的数据。
         this.age = minMaxNormalize(nextDouble(st), minAge, maxAge);
         this.income = minMaxNormalize(nextDouble(st), minIncome, maxIncome);
@@ -42,4 +39,7 @@ public class CarOwnerRecord {
         this.model = st.nextToken();
     }
 
+    public CarOwnerRecord(String str) {
+        this(new StringTokenizer(str, ","));
+    }
 }
