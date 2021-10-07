@@ -27,7 +27,18 @@ public class KSmallestMap {
         return data.values();
     }
 
-    Set<Entry<Double, String>> entrySet() {
+    public Set<Entry<Double, String>> entrySet() {
         return data.entrySet();
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder("distance\tmodel\n");
+        for (Entry<Double, String> item : entrySet()) {
+            sb.append(item.getKey());
+            sb.append('\t');
+            sb.append(item.getValue());
+            sb.append('\n');
+        }
+        return sb.toString();
     }
 }

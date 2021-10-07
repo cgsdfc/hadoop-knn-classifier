@@ -69,6 +69,6 @@ public class KnnReducer extends Reducer<NullWritable, DoubleString, Text, Text> 
         }
         // 输出分类结果和K-邻域。
         context.write(new Text("Result: "), new Text(mostCommonModel));
-        context.write(new Text("K-Nearest-Neighbours: "), new Text(KnnMap.toString()));
+        context.write(new Text("K-Nearest-Neighbours:\n"), new Text(KnnMap.toString()));
     }
 }
