@@ -1,0 +1,13 @@
+Error: java.util.NoSuchElementException
+        at java.util.StringTokenizer.nextToken(StringTokenizer.java:349)
+        at com.example.CarOwnerRecord.<init>(CarOwnerRecord.java:39)
+        at com.example.ConfigureFile.<init>(ConfigureFile.java:31)
+        at com.example.KnnMapper.setup(KnnMapper.java:33)
+        at org.apache.hadoop.mapreduce.Mapper.run(Mapper.java:143)
+        at org.apache.hadoop.mapred.MapTask.runNewMapper(MapTask.java:799)
+        at org.apache.hadoop.mapred.MapTask.run(MapTask.java:347)
+        at org.apache.hadoop.mapred.YarnChild$2.run(YarnChild.java:174)
+        at java.security.AccessController.doPrivileged(Native Method)
+        at javax.security.auth.Subject.doAs(Subject.java:422)
+        at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1729)
+        at org.apache.hadoop.mapred.YarnChild.main(YarnChild.java:168)
