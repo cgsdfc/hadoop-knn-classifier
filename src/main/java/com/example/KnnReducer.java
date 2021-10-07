@@ -1,16 +1,13 @@
 package com.example;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 import java.util.TreeMap;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -30,11 +27,8 @@ public class KnnReducer extends Reducer<NullWritable, DoubleString, Text, Text> 
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
         if (context.getCacheFiles() != null && context.getCacheFiles().length > 0) {
-            // 读入配置文件。
-            String knnParams = FileUtils.readFileToString(new File("./knnParamFile"), Charset.defaultCharset());
-            StringTokenizer st = new StringTokenizer(knnParams, ",");
-            // 获取第一个字段即可。
-            K = Integer.parseInt(st.nextToken());
+            KnnConfigFile configFile = new KnnConfigFile();
+            this.K = configFile.K;
         }
     }
 
