@@ -3,6 +3,7 @@ package com.example;
 import com.example.CarOwnerRecord;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.StringTokenizer;
@@ -21,7 +22,7 @@ public class ConfigureFile {
         job.addCacheFile(new URI(basename + "#" + cacheFileBasename));
     }
 
-    public ConfigureFile() throws Exception {
+    public ConfigureFile() throws IOException {
         String knnParams = FileUtils.readFileToString(new File("./" + cacheFileBasename), Charset.defaultCharset());
         StringTokenizer st = new StringTokenizer(knnParams, ",");
 

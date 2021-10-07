@@ -42,4 +42,31 @@ public class CarOwnerRecord {
     public CarOwnerRecord(String str) {
         this(new StringTokenizer(str, ","));
     }
+
+    // 计算两个离散型变量的距离。这里我们简单把距离定义为两个变量是否相等。
+    // 这个定义所产生的距离与上述的正则化产生的距离在值域上是一致的。
+    private static double nominalDistance(String t1, String t2) {
+        if (t1.equals(t2)) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    // 计算一个距离的平方值。
+    private static double squaredDistance(double n1) {
+        return Math.pow(n1, 2);
+    }
+
+    public static double computeDistance(CarOwnerRecord a, CarOwnerRecord b) {
+        double ageDifference = a.age - b.age;
+        double incomeDifference = a.income - b.income;
+        double statusDifference = nominalDistance(a.status, b.status);
+        double genderDifference = nominalDistance(a.gender, b.gender);
+        double childrenDifference = a.children - b.children;
+        // 不需要开平方根，因为它不会改变值的顺序关系。
+        return squaredDistance(ageDifference) + squaredDistance(incomeDifference) //
+                + statusDifference + genderDifference + squaredDistance(childrenDifference);
+    }
+
 }
