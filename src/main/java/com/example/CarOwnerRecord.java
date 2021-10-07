@@ -29,18 +29,26 @@ public class CarOwnerRecord {
         return Double.parseDouble(st.nextToken());
     }
 
-    public CarOwnerRecord(StringTokenizer st) {
+    public CarOwnerRecord(StringTokenizer st, boolean testing) {
         // 解析各个字段的数据。
         this.age = minMaxNormalize(nextDouble(st), minAge, maxAge);
         this.income = minMaxNormalize(nextDouble(st), minIncome, maxIncome);
         this.status = st.nextToken();
         this.gender = st.nextToken();
         this.children = minMaxNormalize(nextDouble(st), minChildren, maxChildren);
-        this.model = st.nextToken();
+        if (testing) {
+            this.model = null;
+        } else {
+            this.model = st.nextToken();
+        }
     }
 
-    public CarOwnerRecord(String str) {
-        this(new StringTokenizer(str, ","));
+    public boolean isTesting() {
+        return this.model == null;
+    }
+
+    public CarOwnerRecord(String str, boolean testing) {
+        this(new StringTokenizer(str, ","), testing);
     }
 
     // 计算两个离散型变量的距离。这里我们简单把距离定义为两个变量是否相等。

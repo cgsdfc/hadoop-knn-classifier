@@ -13,7 +13,6 @@ public class KnnConfigFile {
 
     public int K;
     public CarOwnerRecord testing_record;
-    // TODO: Change this filename.
     private static final String cacheFileBasename = "knnParamFile";
 
     public static void initialize(Job job, String basename) throws Exception {
@@ -26,7 +25,7 @@ public class KnnConfigFile {
 
         // 获取参数K和测试实例的字段。
         this.K = Integer.parseInt(st.nextToken());
-        this.testing_record = new CarOwnerRecord(st);
+        this.testing_record = new CarOwnerRecord(st, true);
     }
 
 }

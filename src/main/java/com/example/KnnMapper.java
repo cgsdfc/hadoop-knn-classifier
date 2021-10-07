@@ -34,7 +34,7 @@ public class KnnMapper extends Mapper<Object, Text, NullWritable, DoubleString> 
     @Override
     public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
         // 对一行csv数据进行解析。训练数据记为r，测试数据记为t，作为变量的前缀以示区分。
-        CarOwnerRecord training_record = new CarOwnerRecord(value.toString());
+        CarOwnerRecord training_record = new CarOwnerRecord(value.toString(), false);
 
         // 计算训练实例和测试实例的距离。
         double tDist = CarOwnerRecord.computeDistance(training_record, configFile.testing_record);
