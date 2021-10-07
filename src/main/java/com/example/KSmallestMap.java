@@ -23,6 +23,10 @@ public class KSmallestMap {
         }
     }
 
+    public int size() {
+        return data.size();
+    }
+    
     public Collection<String> values() {
         return data.values();
     }
