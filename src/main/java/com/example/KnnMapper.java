@@ -1,13 +1,9 @@
 package com.example;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.Map;
-import java.util.StringTokenizer;
 import java.util.TreeMap;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -38,13 +34,13 @@ public class KnnMapper extends Mapper<Object, Text, NullWritable, DoubleString> 
     @Override
     public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
         // 对一行csv数据进行解析。训练数据记为r，测试数据记为t，作为变量的前缀以示区分。
-        CarOwnerRecord record = new CarOwnerRecord(value.toString());
+        CarOwnerRecord training_record = new CarOwnerRecord(value.toString());
 
         // 计算训练实例和测试实例的距离。
-        double tDist = CarOwnerRecord.computeDistance(record, configureFile.record);
+        double tDist = CarOwnerRecord.computeDistance(training_record, configureFile.testing_record);
 
         // 更新距离最小的不超过K个实例的记录。
-        KnnMap.put(tDist, record.model);
+        KnnMap.put(tDist, training_record.model);
         // 最多保存K个记录。
         if (KnnMap.size() > configureFile.K) {
             KnnMap.remove(KnnMap.lastKey());

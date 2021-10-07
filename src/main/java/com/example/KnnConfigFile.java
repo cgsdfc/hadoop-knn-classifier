@@ -1,7 +1,5 @@
 package com.example;
 
-import com.example.CarOwnerRecord;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -14,8 +12,8 @@ import org.apache.hadoop.mapreduce.Job;
 public class KnnConfigFile {
 
     public int K;
-    public CarOwnerRecord record;
-
+    public CarOwnerRecord testing_record;
+    // TODO: Change this filename.
     private static final String cacheFileBasename = "knnParamFile";
 
     public static void initialize(Job job, String basename) throws Exception {
@@ -28,7 +26,7 @@ public class KnnConfigFile {
 
         // 获取参数K和测试实例的字段。
         this.K = Integer.parseInt(st.nextToken());
-        this.record = new CarOwnerRecord(st);
+        this.testing_record = new CarOwnerRecord(st);
     }
 
 }
