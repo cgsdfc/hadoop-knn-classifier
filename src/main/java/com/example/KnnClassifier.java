@@ -20,7 +20,7 @@ public class KnnClassifier {
         Configuration conf = new Configuration();
 
         // 命令行参数有误。
-        if (args.length != 3) {
+        if (args.length != 4) {
             System.err.println("Usage: KnnClassifier <training_dataset> <output> <parameter file> <testing_dataset>");
             System.exit(2);
         }

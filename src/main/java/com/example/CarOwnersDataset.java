@@ -5,8 +5,8 @@ import static com.example.DataUtils.minMaxNormalize;
 
 public class CarOwnersDataset implements KnnDataset {
     @Override
-    public KnnRecord createRecord(String string, boolean is_testing) {
-        return new CarOwnerRecord(string, is_testing);
+    public KnnRecord createRecord(String string) {
+        return new CarOwnerRecord(string);
     }
 
     public static class CarOwnerRecord implements KnnRecord {
@@ -30,22 +30,18 @@ public class CarOwnersDataset implements KnnDataset {
             return Double.parseDouble(st.nextToken());
         }
 
-        public CarOwnerRecord(StringTokenizer st, boolean testing) {
+        public CarOwnerRecord(StringTokenizer st) {
             // 解析各个字段的数据。
             this.age = minMaxNormalize(nextDouble(st), minAge, maxAge);
             this.income = minMaxNormalize(nextDouble(st), minIncome, maxIncome);
             this.status = st.nextToken();
             this.gender = st.nextToken();
             this.children = minMaxNormalize(nextDouble(st), minChildren, maxChildren);
-            if (testing) {
-                this.model = null;
-            } else {
-                this.model = st.nextToken();
-            }
+            this.model = st.nextToken();
         }
 
-        public CarOwnerRecord(String str, boolean testing) {
-            this(new StringTokenizer(str, ","), testing);
+        public CarOwnerRecord(String str) {
+            this(new StringTokenizer(str, ","));
         }
 
         public static double computeDistance(CarOwnerRecord a, CarOwnerRecord b) {

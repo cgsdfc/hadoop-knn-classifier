@@ -5,8 +5,8 @@ import java.util.StringTokenizer;
 public class IrisDataset implements KnnDataset {
 
     @Override
-    public KnnRecord createRecord(String string, boolean is_testing) {
-        return new IrisRecord(string, is_testing);
+    public KnnRecord createRecord(String string) {
+        return new IrisRecord(string);
     }
 
     public static class IrisRecord implements KnnRecord {
@@ -16,13 +16,11 @@ public class IrisDataset implements KnnDataset {
         private double[] features = new double[featureNumber];
         private int label = -1;
 
-        public IrisRecord(String string, boolean is_testing) {
+        public IrisRecord(String string ) {
             StringTokenizer st = new StringTokenizer(string, ",");
             for (int i = 0; i < featureNumber; ++i) {
                 features[i] = Double.parseDouble(st.nextToken());
             }
-            if (is_testing)
-                return;
             label = Integer.parseInt(st.nextToken());
         }
 

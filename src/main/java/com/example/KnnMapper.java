@@ -39,7 +39,7 @@ public class KnnMapper extends Mapper<Object, Text, IntWritable, MapWritable> {
     // 重写map方法，实现对训练数据的分布式处理。
     @Override
     public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
-        KnnRecord trainingRecord = configFile.dataset.createRecord(value.toString(), false);
+        KnnRecord trainingRecord = configFile.dataset.createRecord(value.toString());
         // 计算每个测试实例和训练实例的距离。
         for (int i = 0; i < testingDataset.size(); ++i) {
             // 计算训练实例和测试实例的距离。

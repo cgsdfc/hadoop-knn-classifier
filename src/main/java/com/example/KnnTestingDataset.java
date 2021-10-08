@@ -11,7 +11,7 @@ import org.apache.hadoop.mapreduce.Job;
 
 public class KnnTestingDataset {
 
-    private ArrayList<KnnRecord> records;
+    private ArrayList<KnnRecord> records = new ArrayList<>();
 
     // 用这个符号链接来访问文件，就不需要知道原来的文件名是什么了。
     private static final String symlink = "knnTesingFile";
@@ -32,7 +32,7 @@ public class KnnTestingDataset {
         BufferedReader reader = new BufferedReader(new FileReader(new File("./" + symlink)));
         String line;
         while ((line = reader.readLine()) != null) {
-            KnnRecord r = configFile.dataset.createRecord(line, true);
+            KnnRecord r = configFile.dataset.createRecord(line);
             records.add(r);
         }
     }

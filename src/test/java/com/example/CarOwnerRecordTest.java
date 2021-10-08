@@ -10,8 +10,8 @@ public class CarOwnerRecordTest {
     // private static final double delta = 1e-4;
 
     @Test
-    public void testConstructTraining() {
-        CarOwnerRecord record = new CarOwnerRecord(data, false);
+    public void testConstructor() {
+        CarOwnerRecord record = new CarOwnerRecord(data);
 
         assertEquals(record.status, "Single");
         assertEquals(record.gender, "Male");
@@ -21,12 +21,6 @@ public class CarOwnerRecordTest {
         // assertEquals(record.children, 1, delta);
         // assertEquals(record.age, 21, delta);
         // assertEquals(record.income, 28460, delta);
-    }
-
-    @Test
-    public void testConstructTesting() {
-        CarOwnerRecord record = new CarOwnerRecord(data, true);
-        assertEquals(record.model, null);
     }
 
 }
