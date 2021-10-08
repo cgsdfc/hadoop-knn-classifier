@@ -1,1 +1,0 @@
-3, car_owners, 25, 20000, Married, Male, 1
