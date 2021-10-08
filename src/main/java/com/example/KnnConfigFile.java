@@ -14,9 +14,10 @@ import org.apache.hadoop.mapreduce.Job;
 public class KnnConfigFile {
 
     private static class ConfigData {
-        public String dataset_name;
-        public int K;
-        public String testing_record;
+        // 注意：字段顺序要和配置文件的顺序一致。并且名字也要一致。
+        public int k;
+        public String ds;
+        public String test;
     }
 
     public int K;
@@ -33,9 +34,9 @@ public class KnnConfigFile {
         String knnParams = FileUtils.readFileToString(new File("./" + cacheFileBasename), Charset.defaultCharset());
         Gson gson = new Gson();
         ConfigData data = gson.fromJson(knnParams, ConfigData.class);
-        this.K = data.K;
-        String dataset_name = data.dataset_name.toLowerCase();
+        this.K = data.k;
+        String dataset_name = data.ds.toLowerCase();
         this.dataset = KnnDatasetFactory.get().getDataset(dataset_name);
-        this.testing_record = this.dataset.createRecord(data.testing_record, true);
+        this.testing_record = this.dataset.createRecord(data.test, true);
     }
 }

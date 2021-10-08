@@ -11,16 +11,9 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 // 驱动类，包裹 Mapper 和 Reducer 类，并实现 main 函数。
 public class KnnClassifier {
 
-    public static void registerKnownDatasets() {
-        KnnDatasetFactory factory = KnnDatasetFactory.get();
-        factory.registerDataset("iris", new IrisDataset());
-        factory.registerDataset("car_owners", new CarOwnersDataset());
-    }
-
     // 主函数。调用 MapReduce 的 Job API 来配置本次运行的相关设定，并且提交任务。
     public static void main(String[] args) throws Exception {
-        registerKnownDatasets();
-        
+
         // 创建配置对象。
         Configuration conf = new Configuration();
 

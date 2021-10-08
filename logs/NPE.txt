@@ -1,0 +1,11 @@
+Error: java.lang.NullPointerException
+        at com.example.KnnConfigFile.<init>(KnnConfigFile.java:40)
+        at com.example.KnnMapper.setup(KnnMapper.java:30)
+        at org.apache.hadoop.mapreduce.Mapper.run(Mapper.java:143)
+        at org.apache.hadoop.mapred.MapTask.runNewMapper(MapTask.java:799)
+        at org.apache.hadoop.mapred.MapTask.run(MapTask.java:347)
+        at org.apache.hadoop.mapred.YarnChild$2.run(YarnChild.java:174)
+        at java.security.AccessController.doPrivileged(Native Method)
+        at javax.security.auth.Subject.doAs(Subject.java:422)
+        at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1729)
+        at org.apache.hadoop.mapred.YarnChild.main(YarnChild.java:168)
