@@ -19,16 +19,13 @@ import org.apache.hadoop.mapreduce.Reducer;
 public class KnnReducer extends Reducer<NullWritable, DoubleString, Text, Text> {
     // 保存K-邻域。
     KSmallestMap KnnMap;
-    // 算法参数K。
-    int K;
 
     // 从配置文件获取算法参数K。
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
         if (context.getCacheFiles() != null && context.getCacheFiles().length > 0) {
             KnnConfigFile configFile = new KnnConfigFile();
-            this.K = configFile.K;
-            this.KnnMap = new KSmallestMap(this.K);
+            this.KnnMap = new KSmallestMap(configFile.K);
         }
     }
 
