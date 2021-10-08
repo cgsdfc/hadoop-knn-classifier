@@ -22,11 +22,13 @@ public class KnnConfigFile {
     public int K;
     public KnnRecord testing_record;
     public KnnDataset dataset;
+    public String testingFile;
 
     private static final String cacheFileBasename = "knnParamFile";
 
-    public static void initialize(Job job, String basename) throws Exception {
+    public static void initialize(Job job, String basename, String testing_dataset_path) throws Exception {
         job.addCacheFile(new URI(basename + "#" + cacheFileBasename));
+        job.addCacheArchive(new URI(basename + "#" + testing_dataset_path));
     }
 
     public KnnConfigFile() throws IOException {

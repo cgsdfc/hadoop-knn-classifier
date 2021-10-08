@@ -2,6 +2,8 @@ package com.example;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -19,7 +21,7 @@ public class KnnClassifier {
 
         // 命令行参数有误。
         if (args.length != 3) {
-            System.err.println("Usage: KnnClassifier <in> <out> <parameter file>");
+            System.err.println("Usage: KnnClassifier <training_dataset> <output> <parameter file> <testing_dataset>");
             System.exit(2);
         }
 
@@ -28,7 +30,7 @@ public class KnnClassifier {
         // 设置要运行的Jar包，即KnnClassifier类所在的Jar包。
         job.setJarByClass(KnnClassifier.class);
         // 把配置文件设定为 CacheFile，则后续各台服务器均可访问它的副本，从而减少小文件的传输开销。
-        KnnConfigFile.initialize(job, args[2]);
+        KnnConfigFile.initialize(job, args[2], args[3]);
 
         // 设置 MapReduce 任务的自定义类型。
         job.setMapperClass(KnnMapper.class);
@@ -36,8 +38,8 @@ public class KnnClassifier {
         job.setNumReduceTasks(1); // 本项目只需要一个 Reducer 任务。
 
         // 设置输出的键值类型。
-        job.setMapOutputKeyClass(NullWritable.class);
-        job.setMapOutputValueClass(DoubleString.class);
+        job.setMapOutputKeyClass(IntWritable.class);
+        job.setMapOutputValueClass(MapWritable.class);
         job.setOutputKeyClass(NullWritable.class);
         job.setOutputValueClass(Text.class);
 
