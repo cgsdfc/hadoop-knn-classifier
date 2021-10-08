@@ -15,8 +15,7 @@ public class KnnConfigFile {
     private static class ConfigData {
         // 注意：字段顺序要和配置文件的顺序一致。并且名字也要一致。
         public int k;
-        public String ds; // name of the dataset.
-        public String test; // name of the testing dataset file.
+        public String ds; // name of the dataset.F
     }
 
     public int K;
@@ -37,6 +36,5 @@ public class KnnConfigFile {
         this.K = data.k;
         String datasetName = data.ds.toLowerCase();
         this.dataset = KnnDatasetFactory.get().getDataset(datasetName);
-        this.testingFile = data.test;
     }
 }
