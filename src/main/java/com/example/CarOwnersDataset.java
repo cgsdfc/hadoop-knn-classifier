@@ -1,6 +1,7 @@
 package com.example;
 
 import java.util.StringTokenizer;
+import static com.example.DataUtils.minMaxNormalize;
 
 public class CarOwnersDataset implements KnnDataset {
     @Override
@@ -25,12 +26,6 @@ public class CarOwnersDataset implements KnnDataset {
         public static final double minChildren = 0;
         public static final double maxChildren = 5;
 
-        // 把输入的字符串转化为浮点数，并以输入的最大最小值对其进行正则化。
-        // 正则化后的取值范围为0-1。
-        private static double minMaxNormalize(double n1, double minValue, double maxValue) {
-            return (n1 - minValue) / (maxValue - minValue);
-        }
-
         private static double nextDouble(StringTokenizer st) {
             return Double.parseDouble(st.nextToken());
         }
@@ -53,30 +48,12 @@ public class CarOwnersDataset implements KnnDataset {
             this(new StringTokenizer(str, ","), testing);
         }
 
-        // 计算两个离散型变量的距离。这里我们简单把距离定义为两个变量是否相等。
-        // 这个定义所产生的距离与上述的正则化产生的距离在值域上是一致的。
-        private static double nominalDistance(String t1, String t2) {
-            if (t1.equals(t2)) {
-                return 0;
-            } else {
-                return 1;
-            }
-        }
-
-        // 计算一个距离的平方值。
-        private static double squaredDistance(double n1) {
-            return Math.pow(n1, 2);
-        }
-
         public static double computeDistance(CarOwnerRecord a, CarOwnerRecord b) {
-            double ageDifference = a.age - b.age;
-            double incomeDifference = a.income - b.income;
-            double statusDifference = nominalDistance(a.status, b.status);
-            double genderDifference = nominalDistance(a.gender, b.gender);
-            double childrenDifference = a.children - b.children;
-            // 不需要开平方根，因为它不会改变值的顺序关系。
-            return squaredDistance(ageDifference) + squaredDistance(incomeDifference) //
-                    + statusDifference + genderDifference + squaredDistance(childrenDifference);
+            return DataUtils.sumOfSquares(a.age - b.age, //
+                    a.income - b.income, //
+                    DataUtils.nominalDistance(a.status, b.status), //
+                    DataUtils.nominalDistance(a.gender, b.gender), //
+                    a.children - b.children);
         }
 
         @Override

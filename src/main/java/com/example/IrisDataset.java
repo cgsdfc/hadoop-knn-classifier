@@ -10,14 +10,15 @@ public class IrisDataset implements KnnDataset {
     }
 
     public static class IrisRecord implements KnnRecord {
-        private static final int feature_number = 4;
+        private static final int featureNumber = 4;
+        private static final String[] labelNames = { "setosa", "versicolor", "virginica" };
 
-        private double[] features = new double[feature_number];
+        private double[] features = new double[featureNumber];
         private int label = -1;
 
         public IrisRecord(String string, boolean is_testing) {
             StringTokenizer st = new StringTokenizer(string, ",");
-            for (int i = 0; i < feature_number; ++i) {
+            for (int i = 0; i < featureNumber; ++i) {
                 features[i] = Double.parseDouble(st.nextToken());
             }
             if (is_testing)
@@ -26,11 +27,7 @@ public class IrisDataset implements KnnDataset {
         }
 
         private static double computeDistance(IrisRecord a, IrisRecord b) {
-            double ans = 0;
-            for (int i = 0; i < feature_number; ++i) {
-                ans += Math.pow(a.features[i] - b.features[i], 2);
-            }
-            return ans;
+            return DataUtils.squaredEuclideDistance(a.features, b.features);
         }
 
         @Override
@@ -43,7 +40,7 @@ public class IrisDataset implements KnnDataset {
 
         @Override
         public String getLabel() {
-            return Integer.toString(label);
+            return labelNames[this.label];
         }
     }
 }
