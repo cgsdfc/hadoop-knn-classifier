@@ -79,6 +79,14 @@ public class CarOwnerRecord implements KnnRecord {
 
     @Override
     public double distance(KnnRecord other) {
-        return 0;
+        if (other instanceof CarOwnerRecord) {
+            return computeDistance(this, (CarOwnerRecord) other);
+        }
+        return KnnRecord.invalidDistance;
+    }
+
+    @Override
+    public String getLabel() {
+        return model;
     }
 }
