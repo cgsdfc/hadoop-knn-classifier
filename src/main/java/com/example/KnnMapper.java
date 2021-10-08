@@ -7,7 +7,6 @@ import java.util.Map;
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.MapWritable;
-import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
@@ -17,8 +16,6 @@ import org.apache.hadoop.mapreduce.Mapper;
 // 输出 Key 类型为 NullWritable，表示实际上我们没有输出 Key 数据。
 // 输出 Value 类型为 DoubleString，这是我们自定义的数据类型，表示计算出来的距离和相应的标签。
 public class KnnMapper extends Mapper<Object, Text, IntWritable, MapWritable> {
-    // 保存最终计算结果。
-    private DoubleString distanceAndModel = new DoubleString();
     // 始终保存不多于K个键值对，用来对计算出的距离进行排序。
     private ArrayList<KSmallestMap> KnnMap = new ArrayList<KSmallestMap>();
 

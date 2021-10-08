@@ -29,8 +29,10 @@ public class KnnClassifier {
         Job job = Job.getInstance(conf, "Find K-Nearest Neighbour");
         // 设置要运行的Jar包，即KnnClassifier类所在的Jar包。
         job.setJarByClass(KnnClassifier.class);
+
         // 把配置文件设定为 CacheFile，则后续各台服务器均可访问它的副本，从而减少小文件的传输开销。
-        KnnConfigFile.initialize(job, args[2], args[3]);
+        KnnConfigFile.initialize(job, args[2]);
+        KnnTestingDataset.initialize(job, args[3]);
 
         // 设置 MapReduce 任务的自定义类型。
         job.setMapperClass(KnnMapper.class);
