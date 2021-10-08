@@ -1,11 +1,13 @@
 package com.example;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
@@ -16,9 +18,19 @@ import org.apache.hadoop.mapreduce.Reducer;
 // 但是在最后，我们要从K-邻域中产生一个分类结果，那就是要把占比最大的标签作为最终的分类标签。
 // 输出 Key 类型：为了增加可读性，我们用一个字符串来说明输出的内容，所以用Text作为类型。
 // 输出 Value 类型：表示的是分类的结果。
-public class KnnReducer extends Reducer<NullWritable, DoubleString, Text, Text> {
+public class KnnReducer extends Reducer<NullWritable, DoubleString, NullWritable, Text> {
     // 保存K-邻域。
     private KSmallestMap KnnMap;
+
+    public static class LabelDistPair {
+        public String label;
+        public double dist;
+    }
+
+    private static class ResultJsonData {
+        public String prediction; // The predicted label.
+        public ArrayList<LabelDistPair> kNearestNeighbors;
+    }
 
     // 从配置文件获取算法参数K。
     @Override
@@ -27,6 +39,21 @@ public class KnnReducer extends Reducer<NullWritable, DoubleString, Text, Text> 
             KnnConfigFile configFile = new KnnConfigFile();
             this.KnnMap = new KSmallestMap(configFile.K);
         }
+    }
+
+    private String generateResult(String prediction) {
+        ResultJsonData data = new ResultJsonData();
+        data.prediction = prediction;
+        data.kNearestNeighbors = new ArrayList<LabelDistPair>();
+        
+        for (Map.Entry<Double, String> entry : KnnMap.entrySet()) {
+            LabelDistPair pair = new LabelDistPair();
+            pair.dist = entry.getKey();
+            pair.label = entry.getValue();
+            data.kNearestNeighbors.add(pair);
+        }
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(data, ResultJsonData.class);
     }
 
     // 对同一个Key下的所有Value进行汇总。注意，我们的Mapper只产生了一个Key值，即NullWritable的单例，
@@ -56,16 +83,17 @@ public class KnnReducer extends Reducer<NullWritable, DoubleString, Text, Text> 
             }
         }
         // 找出频次最大的标签。
-        String mostCommonModel = null; // 最终预测结果。
+        String mostCommonLabel = null; // 最终预测结果。
         int maxFrequency = -1;
         for (Map.Entry<String, Integer> entry : freqMap.entrySet()) {
             if (entry.getValue() > maxFrequency) {
-                mostCommonModel = entry.getKey();
+                mostCommonLabel = entry.getKey();
                 maxFrequency = entry.getValue();
             }
         }
+
         // 输出分类结果和K-邻域。
-        context.write(new Text("Result: "), new Text(mostCommonModel));
-        context.write(new Text("K-Nearest-Neighbours:\n"), new Text(KnnMap.toString()));
+        String jsonString = generateResult(mostCommonLabel);
+        context.write(NullWritable.get(), new Text(jsonString));
     }
 }
