@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class CarOwnerRecordTest {
     private static final String data = "21,28460,Single,Male,1,Zafira";
-    private static final double delta = 1e-4;
+    // private static final double delta = 1e-4;
 
     @Test
     public void testConstructTraining() {

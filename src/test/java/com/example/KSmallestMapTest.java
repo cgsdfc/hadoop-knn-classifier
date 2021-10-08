@@ -2,7 +2,6 @@ package com.example;
 
 import static org.junit.Assert.assertTrue;
 
-import org.checkerframework.checker.units.qual.K;
 import org.junit.Before;
 import org.junit.Test;
 

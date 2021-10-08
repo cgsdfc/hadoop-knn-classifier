@@ -2,7 +2,7 @@ package com.example;
 
 import java.util.StringTokenizer;
 
-public class CarOwnerRecord {
+public class CarOwnerRecord implements KnnRecord {
     public double age;
     public double income;
     public String status;
@@ -77,4 +77,8 @@ public class CarOwnerRecord {
                 + statusDifference + genderDifference + squaredDistance(childrenDifference);
     }
 
+    @Override
+    public double distance(KnnRecord other) {
+        return 0;
+    }
 }
