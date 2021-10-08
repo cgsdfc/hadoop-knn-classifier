@@ -35,7 +35,7 @@ public class IrisDataset implements KnnDataset {
 
         @Override
         public double distance(KnnRecord other) {
-            if (other instanceof IrisDataset) {
+            if (other instanceof IrisRecord) {
                 return computeDistance(this, (IrisRecord) other);
             }
             return KnnRecord.invalidDistance;
