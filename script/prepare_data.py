@@ -2,8 +2,8 @@
 把数据分为测试和训练两个部分。
 """
 
-def SplitTrainTest(filename):
-    pass
-    
+import random
+import sys
 
-print('hello')
+filename=sys.args[1]
+
