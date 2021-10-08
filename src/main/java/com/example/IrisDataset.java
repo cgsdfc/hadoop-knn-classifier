@@ -11,7 +11,7 @@ public class IrisDataset implements KnnDataset {
 
     public static class IrisRecord implements KnnRecord {
         private static final int featureNumber = 4;
-        private static final String[] labelNames = { "setosa", "versicolor", "virginica" };
+        // private static final String[] labelNames = { "setosa", "versicolor", "virginica" };
 
         private double[] features = new double[featureNumber];
         private int label = -1;
@@ -38,7 +38,7 @@ public class IrisDataset implements KnnDataset {
 
         @Override
         public String getLabel() {
-            return labelNames[this.label];
+            return Integer.toString(label);
         }
     }
 }

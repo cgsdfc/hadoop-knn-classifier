@@ -89,7 +89,8 @@ public class KnnReducer extends Reducer<IntWritable, MapWritable, NullWritable, 
         for (int i = 0; i < testingDataset.size(); ++i) {
             String label = predicteOneTestingRecord(KnnMap.get(i));
             data.predictions.add(label);
-            data.accuracy += (label == testingDataset.get(i).getLabel() ? 1 : 0);
+            String groundTruth = testingDataset.get(i).getLabel();
+            data.accuracy += (label.equals(groundTruth) ? 1 : 0);
         }
         data.accuracy /= testingDataset.size();
         return data;
