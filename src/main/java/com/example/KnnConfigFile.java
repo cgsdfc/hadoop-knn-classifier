@@ -14,6 +14,7 @@ public class KnnConfigFile {
     public int K;
     public CarOwnerRecord testing_record;
     public String dataset_name;
+    public KnnDataset dataset;
 
     private static final String cacheFileBasename = "knnParamFile";
 
@@ -28,6 +29,8 @@ public class KnnConfigFile {
         // 获取参数K和测试实例的字段。
         this.K = Integer.parseInt(st.nextToken());
         this.dataset_name = st.nextToken().toLowerCase();
+        // 找到数据集对应的类。
+        this.dataset = KnnDatasetFactory.get().getDataset(this.dataset_name);
         this.testing_record = new CarOwnerRecord(st, true);
     }
 }

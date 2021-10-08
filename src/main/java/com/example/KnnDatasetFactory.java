@@ -3,6 +3,7 @@ package com.example;
 import java.util.Map;
 import java.util.HashMap;
 
+// 这是一个单例模式的类，所有的 KnnDataset 都是由他返回的。
 public class KnnDatasetFactory {
     
     private Map<String, KnnDataset> nameToDataset = new HashMap<String, KnnDataset>();
