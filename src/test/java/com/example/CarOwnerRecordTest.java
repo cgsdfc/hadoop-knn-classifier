@@ -1,8 +1,8 @@
 package com.example;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
+import com.example.CarOwnersDataset.CarOwnerRecord;
 import org.junit.Test;
 
 public class CarOwnerRecordTest {
@@ -27,7 +27,6 @@ public class CarOwnerRecordTest {
     public void testConstructTesting() {
         CarOwnerRecord record = new CarOwnerRecord(data, true);
         assertEquals(record.model, null);
-        assertTrue(record.isTesting());
     }
 
 }

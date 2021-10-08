@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.Charset;
-import java.util.StringTokenizer;
 
 import com.google.gson.Gson;
 

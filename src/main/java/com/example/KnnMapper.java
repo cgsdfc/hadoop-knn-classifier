@@ -14,13 +14,11 @@ import org.apache.hadoop.mapreduce.Mapper;
 // 输出 Value 类型为 DoubleString，这是我们自定义的数据类型，表示计算出来的距离和相应的标签。
 public class KnnMapper extends Mapper<Object, Text, NullWritable, DoubleString> {
     // 保存最终计算结果。
-    DoubleString distanceAndModel = new DoubleString();
+    private DoubleString distanceAndModel = new DoubleString();
     // 始终保存不多于K个键值对，用来对计算出的距离进行排序。
-    KSmallestMap KnnMap;
+    private KSmallestMap KnnMap;
 
-    KnnConfigFile configFile;
-
-    KnnDataset dataset;
+    private KnnConfigFile configFile;
 
     // 重写 Mapper 的setup方法，初始化本对象的一些数据。
     @Override

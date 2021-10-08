@@ -18,7 +18,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 // 输出 Value 类型：表示的是分类的结果。
 public class KnnReducer extends Reducer<NullWritable, DoubleString, Text, Text> {
     // 保存K-邻域。
-    KSmallestMap KnnMap;
+    private KSmallestMap KnnMap;
 
     // 从配置文件获取算法参数K。
     @Override
