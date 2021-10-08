@@ -16,7 +16,7 @@ public class IrisDataset implements KnnDataset {
         private int label = -1;
 
         public IrisRecord(String string, boolean is_testing) {
-            StringTokenizer st = new StringTokenizer(string);
+            StringTokenizer st = new StringTokenizer(string, ",");
             for (int i = 0; i < feature_number; ++i) {
                 features[i] = Double.parseDouble(st.nextToken());
             }

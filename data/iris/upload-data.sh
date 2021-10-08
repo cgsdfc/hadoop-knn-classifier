@@ -6,4 +6,4 @@
 hadoop fs -mkdir -p /demo/data/iris
 
 # 上传训练数据集。
-hadoop fs -put /home/cong/Code/demo/data/iris/* /demo/data/iris
+hadoop fs -put -f /home/cong/Code/demo/data/iris/* /demo/data/iris
