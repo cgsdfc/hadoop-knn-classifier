@@ -19,7 +19,7 @@ public class KnnEvaluator {
     private Path originalDatasetPath;
     private TextLineDataset originalDataset;
     private EvalDatasetsGenerator generator;
-    private ConfigData configData;
+    private KnnConfigData configData;
     private ArrayList<Double> jobResults;
     private int jobCount = 0;
 
@@ -29,7 +29,7 @@ public class KnnEvaluator {
     private static final Path outputDir = new Path(evaluatorHome, "result/");
     private static final Path configFilePath = new Path(evaluatorHome, "config.json");
 
-    public KnnEvaluator(EvalDatasetsGenerator generator, ConfigData configData) throws Exception {
+    public KnnEvaluator(EvalDatasetsGenerator generator, KnnConfigData configData) throws Exception {
         this.generator = generator;
         this.fileSystem = FsUtils.getFileSystem();
         this.configData = configData;

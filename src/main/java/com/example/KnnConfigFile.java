@@ -26,7 +26,7 @@ public class KnnConfigFile {
         String knnParams = FileUtils.readFileToString(new File("./" + symlink), //
                 Charset.defaultCharset());
         Gson gson = new Gson();
-        ConfigData data = gson.fromJson(knnParams, ConfigData.class);
+        KnnConfigData data = gson.fromJson(knnParams, KnnConfigData.class);
         this.K = data.k;
         String datasetName = data.ds.toLowerCase();
         this.dataset = KnnDatasetFactory.get().getDataset(datasetName);
