@@ -96,7 +96,7 @@ public class KnnEvaluator {
         FsUtils.remove(fileSystem, outputDir);
 
         // 运行knn分类器任务。
-        KnnClassifierJob job = new KnnClassifierJob(//
+        KnnClassifier job = new KnnClassifier(//
                 configFilePath.toString(), //
                 testingDatasetPath.toString(), //
                 trainingDatasetPath.toString(), outputDir.toString(), jobCount++);
