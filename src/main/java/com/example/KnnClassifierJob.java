@@ -1,6 +1,5 @@
 package com.example;
 
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -65,10 +64,5 @@ public class KnnClassifierJob {
             throw new Exception("Job failed");
         }
 
-    }
-
-    private ResultJsonData retrieveResult() throws Exception {
-        FileSystem fs = FsUtils.getFileSystem();
-
-    }
+    } 
 }

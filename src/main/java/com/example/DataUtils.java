@@ -31,7 +31,23 @@ public class DataUtils {
         for (int i = 0; i < diff.length; ++i) {
             diff[i] = v1[i] - v2[i];
         }
-
         return sumOfSquares(diff);
+    }
+
+    public static double[] computeMeanAndStd(Iterable<Double> data) {
+        double mean = 0;
+        double std = 0;
+        int length = 0;
+        for (double x : data) {
+            mean += x;
+            length++;
+        }
+        mean /= length;
+        for (double x : data) {
+            std += Math.pow(x - mean, 2);
+        }
+        std /= length - 1;
+        std = Math.pow(std, 0.5);
+        return new double[] { mean, std };
     }
 }

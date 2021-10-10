@@ -11,9 +11,9 @@ public interface EvalDatasetsGenerator {
 
     // 这个类用来接收生成的测试数据集。
     public static interface EvalDatasetSink {
-        public void receive(EvalDataset dataset);
+        public void receive(EvalDataset dataset) throws Exception;
     }
 
     // 这个方法用来生成所有测试数据集，并且写入sink中。
-    public void generate(TextLineDataset originDataset, EvalDatasetSink sink);
+    public void generate(TextLineDataset originDataset, EvalDatasetSink sink) throws Exception;
 }
