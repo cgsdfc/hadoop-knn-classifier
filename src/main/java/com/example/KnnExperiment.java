@@ -20,12 +20,20 @@ public class KnnExperiment {
 
     private ConfigData configData;
 
-    public static class ConfigData {
-        public int K;
+    public static class DatasetInfo {
         public String datasetName;
         public String trainingFile;
+    }
+
+    public static class ResampleInfo {
         public String resampleMethod;
         public String[] resampleParams;
+    }
+
+    public static class ConfigData {
+        public int K;
+        public DatasetInfo dsInfo;
+        public ResampleInfo rsInfo;
     }
 
     public KnnExperiment(ConfigData configData) {
@@ -34,12 +42,14 @@ public class KnnExperiment {
 
     public EvaluationResult run() throws Exception {
         KnnConfigData config = new KnnConfigData();
-        config.ds = configData.datasetName;
+        config.ds = configData.dsInfo.datasetName;
         config.k = configData.K;
-        final String trainingFile = configData.trainingFile;
+        final String trainingFile = configData.dsInfo.trainingFile;
 
-        EvalDataGenerator generator = EvalDataGeneratorFactory.create(configData.resampleMethod,
-                configData.resampleParams);
+        EvalDataGenerator generator = EvalDataGeneratorFactory.create(//
+                configData.rsInfo.resampleMethod, //
+                configData.rsInfo.resampleParams);
+                
         KnnEvaluator evaluator = new KnnEvaluator(generator, config, new Path(trainingFile));
         return evaluator.doEvaluation();
     }
@@ -54,17 +64,17 @@ public class KnnExperiment {
 
         final String resampleMethod = args[resampleMethodIndex];
         String[] resampleParams = Arrays.copyOfRange(args, resampleMethodIndex + 1, args.length);
-        configData.resampleMethod = resampleMethod;
-        configData.resampleParams = resampleParams;
+        configData.rsInfo.resampleMethod = resampleMethod;
+        configData.rsInfo.resampleParams = resampleParams;
 
         Gson gson = new Gson();
         Reader reader = new FileReader(new File(args[configFileIndex]));
         KnnConfigData data = gson.fromJson(reader, KnnConfigData.class);
         configData.K = data.k;
-        configData.datasetName = data.ds;
+        configData.dsInfo.datasetName = data.ds;
 
         final String trainingFile = args[trainingFileIndex];
-        configData.trainingFile = trainingFile;
+        configData.dsInfo.trainingFile = trainingFile;
 
         KnnExperiment experiment = new KnnExperiment(configData);
         EvaluationResult result = experiment.run();
