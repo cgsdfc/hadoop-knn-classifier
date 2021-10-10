@@ -65,6 +65,11 @@ public class FsUtils {
         return gson.fromJson(reader, cls);
     }
 
+    public static <T> T readFromJsonFormatHDFS(FileSystem fs, String path, Class<T> cls) throws Exception {
+        Gson gson = new Gson();
+        return gson.fromJson(openTextFile(fs, new Path(path)), cls);
+    }
+
     public static String toJsonString(Object object) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.toJson(object);
