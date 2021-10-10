@@ -29,10 +29,11 @@ public class KnnEvaluator {
     private static final Path outputDir = new Path(evaluatorHome, "result/");
     private static final Path configFilePath = new Path(evaluatorHome, "config.json");
 
-    public KnnEvaluator(EvalDatasetsGenerator generator, KnnConfigData configData) throws Exception {
+    public KnnEvaluator(EvalDatasetsGenerator generator, KnnConfigData configData, Path originalDatasetPath)
+            throws Exception {
         this.generator = generator;
-        this.fileSystem = FsUtils.getFileSystem();
         this.configData = configData;
+        this.originalDatasetPath = originalDatasetPath;
     }
 
     public EvaluationResult doEvaluation() throws Exception {
@@ -48,10 +49,13 @@ public class KnnEvaluator {
         EvaluationResult result = new EvaluationResult();
         result.mean = meanAndStd[0];
         result.std = meanAndStd[1];
+        result.K = configData.k;
+        result.datasetName = configData.ds;
         return result;
     }
 
     private void setup() throws Exception {
+        fileSystem = FsUtils.getFileSystem();
         jobResults = new ArrayList<>();
         jobCount = 0;
         fileSystem.mkdirs(evaluatorHome);

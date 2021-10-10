@@ -4,4 +4,6 @@ package com.example;
 public class EvaluationResult {
     public double mean;
     public double std;
+    public int K;
+    public String datasetName;
 }
