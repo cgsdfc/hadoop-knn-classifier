@@ -1,7 +1,7 @@
 package com.example;
 
 // 这个类负责生成评估数据集，并且把每个生成的数据集写入一个sink里。
-public interface EvalDatasetsGenerator {
+public interface EvalDataGenerator {
 
     // 这个类表示生成的其中一个测试数据集。一次测试可能需要多个测试数据集。
     public static class EvalDataset {

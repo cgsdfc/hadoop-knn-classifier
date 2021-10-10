@@ -4,8 +4,8 @@ import java.io.BufferedReader;
 import java.io.Reader;
 import java.util.ArrayList;
 
-import com.example.EvalDatasetsGenerator.EvalDataset;
-import com.example.EvalDatasetsGenerator.EvalDatasetSink;
+import com.example.EvalDataGenerator.EvalDataset;
+import com.example.EvalDataGenerator.EvalDatasetSink;
 import com.google.gson.Gson;
 
 import org.apache.hadoop.fs.FileStatus;
@@ -18,7 +18,7 @@ public class KnnEvaluator {
     private FileSystem fileSystem;
     private Path originalDatasetPath;
     private TextLineDataset originalDataset;
-    private EvalDatasetsGenerator generator;
+    private EvalDataGenerator generator;
     private KnnConfigData configData;
     private ArrayList<Double> jobResults;
     private int jobCount = 0;
@@ -29,7 +29,7 @@ public class KnnEvaluator {
     private static final Path outputDir = new Path(evaluatorHome, "result/");
     private static final Path configFilePath = new Path(evaluatorHome, "config.json");
 
-    public KnnEvaluator(EvalDatasetsGenerator generator, KnnConfigData configData, Path originalDatasetPath)
+    public KnnEvaluator(EvalDataGenerator generator, KnnConfigData configData, Path originalDatasetPath)
             throws Exception {
         this.generator = generator;
         this.configData = configData;

@@ -3,7 +3,7 @@ package com.example;
 import java.util.Collections;
 import java.util.Random;
 
-public class CrossValidationDataGenerator implements EvalDatasetsGenerator {
+public class CrossValidationDataGenerator implements EvalDataGenerator {
     private int numFolds;
 
     public CrossValidationDataGenerator(int numFolds) {

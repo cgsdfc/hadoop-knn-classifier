@@ -2,7 +2,7 @@ package com.example;
 
 import java.util.Random;
 
-public class BoostrapDataGenerator implements EvalDatasetsGenerator {
+public class BoostrapDataGenerator implements EvalDataGenerator {
     private int numTimes;
     private double testSampleRatio;
 
