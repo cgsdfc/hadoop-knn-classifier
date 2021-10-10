@@ -9,7 +9,7 @@ import org.apache.hadoop.fs.Path;
 public class KnnExperiment {
 
     public static void main(String[] args) throws Exception {
-        final String datasetPath = "/demo/data/iris/iris_train.csv";
+        final String datasetPath = "/demo/data/iris/iris_training.csv";
         final int numFolds = 3;
         EvalDatasetsGenerator generator = new CrossValidationDataGenerator(numFolds);
         KnnConfigData configData = new KnnConfigData();

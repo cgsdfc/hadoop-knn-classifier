@@ -58,6 +58,7 @@ public class KnnEvaluator {
         fileSystem = FsUtils.getFileSystem();
         jobResults = new ArrayList<>();
         jobCount = 0;
+        // FsUtils.remove(fileSystem, evaluatorHome);
         fileSystem.mkdirs(evaluatorHome);
         writeConfigFile();
         readOriginalDataset();
@@ -71,7 +72,7 @@ public class KnnEvaluator {
     private void writeConfigFile() throws Exception {
         Gson gson = new Gson();
         String configString = gson.toJson(this.configData);
-        FsUtils.write(fileSystem, outputDir, configString);
+        FsUtils.write(fileSystem, configFilePath, configString);
     }
 
     // 读入原始数据集。

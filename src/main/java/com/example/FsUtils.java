@@ -32,11 +32,13 @@ public class FsUtils {
             writer.write(line);
             writer.newLine();
         }
+        writer.close();
     }
 
     public static void write(FileSystem fs, Path outPath, String string) throws Exception {
         Writer writer = new BufferedWriter(new OutputStreamWriter(fs.create(outPath)));
         writer.write(string);
+        writer.close();
     }
 
     public static void remove(FileSystem fs, Path path) throws Exception {
