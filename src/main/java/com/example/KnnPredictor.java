@@ -5,6 +5,7 @@ import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
+// 这是对 KnnClassifier 的封装。
 public class KnnPredictor {
     private int K;
     private FileSystem fileSystem;
