@@ -21,13 +21,16 @@ public class KnnFineTune {
     }
 
     public static class FinalExpResult {
-        public ArrayList<SingleExpResult> results = new ArrayList<>();
-        public SingleExpResult bestResult = new SingleExpResult();
+        KnnExpConfigData config;
+        public ArrayList<SingleExpResult> tuningResults = new ArrayList<>();
         public ArrayList<SingleExpResult> testingResults = new ArrayList<>();
+        public SingleExpResult bestTuningResult = new SingleExpResult();
+        public SingleExpResult bestTestingResult = new SingleExpResult();
 
-        public FinalExpResult() {
-            bestResult.K = -1;
-            bestResult.acc = -1;
+        public FinalExpResult(KnnExpConfigData config) {
+            this.config = config;
+            bestTuningResult.K = bestTestingResult.K = -1;
+            bestTuningResult.acc = bestTestingResult.acc = -1;
         }
     }
 
@@ -42,30 +45,34 @@ public class KnnFineTune {
             configData.K = K;
             KnnExperiment experiment = new KnnExperiment(configData);
             EvaluationResult result = experiment.run();
-            SingleExpResult singleExpResult = new SingleExpResult();
-            singleExpResult.K = K;
-            singleExpResult.acc = result.mean;
-            finalExpResult.results.add(singleExpResult);
-            if (singleExpResult.acc > finalExpResult.bestResult.acc) {
-                finalExpResult.bestResult = singleExpResult;
+            SingleExpResult tuningResult = new SingleExpResult();
+            tuningResult.K = K;
+            tuningResult.acc = result.mean;
+            finalExpResult.tuningResults.add(tuningResult);
+            if (tuningResult.acc > finalExpResult.bestTuningResult.acc) {
+                finalExpResult.bestTuningResult = tuningResult;
             }
         }
     }
 
     // 对于每个K值，都到测试集上去跑一下，看性能是不是最好的。
     private void runOnTestingData(FinalExpResult finalExpResult) throws Exception {
-        for (SingleExpResult result : finalExpResult.results) {
+        for (SingleExpResult result : finalExpResult.tuningResults) {
             KnnPredictor predictor = new KnnPredictor(result.K);
             ResultJsonData jsonData = predictor.predict(configData.dsInfo);
             SingleExpResult testingResult = new SingleExpResult();
             testingResult.K = result.K;
             testingResult.acc = jsonData.accuracy;
             finalExpResult.testingResults.add(testingResult);
+            if (testingResult.acc > finalExpResult.bestTestingResult.acc) {
+                finalExpResult.bestTestingResult = testingResult;
+            }
+
         }
     }
 
     public FinalExpResult run() throws Exception {
-        FinalExpResult finalExpResult = new FinalExpResult();
+        FinalExpResult finalExpResult = new FinalExpResult(this.configData);
         findBestParams(finalExpResult);
         runOnTestingData(finalExpResult);
         return finalExpResult;
