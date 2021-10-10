@@ -26,11 +26,6 @@ public class KnnReducer extends Reducer<IntWritable, MapWritable, NullWritable, 
     private ArrayList<KSmallestMap> KnnMap = new ArrayList<KSmallestMap>();
     private KnnTestingDataset testingDataset;
 
-    private static class ResultJsonData {
-        public double accuracy = 0;
-        public ArrayList<String> predictions = new ArrayList<String>();
-    }
-
     // 从配置文件获取算法参数K。
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {

@@ -1,5 +1,6 @@
 package com.example;
 
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -60,6 +61,14 @@ public class KnnClassifierJob {
         FileOutputFormat.setOutputPath(job, new Path(this.outputDir));
 
         // 等待作业执行完成并返回状态码。
-        System.exit(job.waitForCompletion(true) ? 0 : 1);
+        if (!job.waitForCompletion(true)) {
+            throw new Exception("Job failed");
+        }
+
+    }
+
+    private ResultJsonData retrieveResult() throws Exception {
+        FileSystem fs = FsUtils.getFileSystem();
+
     }
 }

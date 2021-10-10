@@ -12,7 +12,6 @@ import static com.example.EvalDatasetsGenerator.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URI;
 
 // 这个类负责输入文件的准备，输出文件的回收，作业的运行等。
 public class KnnEvaluator {
@@ -21,17 +20,15 @@ public class KnnEvaluator {
     private TextLineDataset originalDataset;
     private EvalDatasetsGenerator generator;
 
-    private static final String hdfsUri = "hdfs://hadoop100:8020";
-
     // 评估结果，准确率的平均值和标准差。
     public static class EvaluationResult {
         public double mean;
         public double std;
     }
 
-    public KnnEvaluator(EvalDatasetsGenerator generator, ) throws Exception {
+    public KnnEvaluator(EvalDatasetsGenerator generator) throws Exception {
         this.generator = generator;
-        this.fileSystem = FileSystem.get(new URI(hdfsUri), new Configuration());
+        this.fileSystem = FsUtils.getFileSystem();
     }
 
     public EvaluationResult doEvaluation() throws Exception {
@@ -47,8 +44,8 @@ public class KnnEvaluator {
         return result;
     }
 
-    private void setup() {
-
+    private void setup() throws Exception {
+        readOriginalDataset();
     }
 
     private void cleanup() throws Exception {
@@ -60,9 +57,8 @@ public class KnnEvaluator {
     }
 
     // 读入原始数据集。
-    private void readOriginalDataset() throws IOException {
-        FSDataInputStream stream = fileSystem.open(this.originalDatasetPath);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+    private void readOriginalDataset() throws Exception {
+        BufferedReader reader = FsUtils.readTextFile(this.fileSystem, this.originalDatasetPath);
         this.originalDataset = new TextLineDataset(reader);
     }
 
