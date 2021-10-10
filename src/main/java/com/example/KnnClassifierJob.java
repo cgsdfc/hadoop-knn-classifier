@@ -20,6 +20,11 @@ public class KnnClassifierJob {
     private String outputDir;
     private int id;
 
+    private static final int trainingDatasetIndex = 0;
+    private static final int outputIndex = 1;
+    private static final int parameterFileIndex = 2;
+    private static final int testingDatasetIndex = 3;
+
     public KnnClassifierJob(String configFile, String testingFile, //
             String trainingFile, String outputDir, int id) {
         this.configFile = configFile;
@@ -27,6 +32,17 @@ public class KnnClassifierJob {
         this.trainingFile = trainingFile;
         this.outputDir = outputDir;
         this.id = id;
+    }
+
+    public static void main(String[] args) throws Exception {
+        // 命令行参数有误。
+        if (args.length != 4) {
+            System.err.println("Usage: KnnClassifier <training_dataset> <output> <parameter file> <testing_dataset>");
+            System.exit(2);
+        }
+        KnnClassifierJob job = new KnnClassifierJob(args[parameterFileIndex], args[testingDatasetIndex],
+                args[trainingDatasetIndex], args[outputIndex], 0);
+        job.run();
     }
 
     // 主函数。调用 MapReduce 的 Job API 来配置本次运行的相关设定，并且提交任务。
@@ -64,5 +80,5 @@ public class KnnClassifierJob {
             throw new Exception("Job failed");
         }
 
-    } 
+    }
 }
