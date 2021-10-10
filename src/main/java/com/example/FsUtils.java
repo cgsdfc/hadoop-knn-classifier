@@ -2,11 +2,15 @@ package com.example;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.Writer;
 import java.net.URI;
 
+import com.google.common.util.concurrent.ExecutionError;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -53,5 +57,16 @@ public class FsUtils {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         gson.toJson(object, writer);
         writer.close();
+    }
+
+    public static <T> T readFromJsonFormatLocal(String path, Class<T> cls) throws Exception {
+        Gson gson = new Gson();
+        Reader reader = new BufferedReader(new FileReader(path));
+        return gson.fromJson(reader, cls);
+    }
+
+    public static String toJsonString(Object object) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(object);
     }
 }

@@ -1,0 +1,14 @@
+{
+    "K": 1,
+    "dsInfo": {
+        "datasetName": "iris",
+        "trainingFile": "/demo/data/iris/iris_training.csv",
+        "testingFile": "/demo/data/iris/iris_test.csv"
+    },
+    "rsInfo": {
+        "resampleMethod": "cv",
+        "resampleParams": [
+            "5"
+        ]
+    }
+}
