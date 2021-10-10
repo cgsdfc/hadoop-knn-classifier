@@ -40,7 +40,7 @@ public class KnnEvaluator {
         this.generator.generate(this.originalDataset, new EvalDatasetSink() {
             @Override
             public void receive(EvalDataset dataset) throws Exception {
-                KnnEvaluator.this.receiveEvalDataset(dataset);
+                KnnEvaluator.this.onReceiveEvalDataset(dataset);
             }
         });
         cleanup();
@@ -54,7 +54,7 @@ public class KnnEvaluator {
     private void setup() throws Exception {
         jobResults = new ArrayList<>();
         jobCount = 0;
-        fileSystem.mkdirs(new Path("/knn-eval"));
+        fileSystem.mkdirs(evaluatorHome);
         writeConfigFile();
         readOriginalDataset();
     }
@@ -63,6 +63,7 @@ public class KnnEvaluator {
         fileSystem.close();
     }
 
+    // 写入配置文件。
     private void writeConfigFile() throws Exception {
         Gson gson = new Gson();
         String configString = gson.toJson(this.configData);
@@ -75,7 +76,7 @@ public class KnnEvaluator {
         this.originalDataset = new TextLineDataset(reader);
     }
 
-    private void receiveEvalDataset(EvalDataset dataset) throws Exception {
+    private void onReceiveEvalDataset(EvalDataset dataset) throws Exception {
         // 把测试数据写入hdfs。覆盖原来文件
         FsUtils.writeLines(fileSystem, trainingDatasetPath, dataset.training.data);
         FsUtils.writeLines(fileSystem, testingDatasetPath, dataset.testing.data);
