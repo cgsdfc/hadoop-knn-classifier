@@ -1,0 +1,44 @@
+{
+    "config": {
+      "K": 2,
+      "dsInfo": {
+        "datasetName": "iris",
+        "trainingFile": "/demo/data/iris/iris_training.csv",
+        "testingFile": "/demo/data/iris/iris_test.csv"
+      },
+      "rsInfo": {
+        "resampleMethod": "cv",
+        "resampleParams": [
+          "2"
+        ]
+      }
+    },
+    "tuningResults": [
+      {
+        "K": 1,
+        "acc": 0.9666666666666667
+      },
+      {
+        "K": 2,
+        "acc": 0.9333333333333333
+      }
+    ],
+    "testingResults": [
+      {
+        "K": 1,
+        "acc": 0.9333333333333333
+      },
+      {
+        "K": 2,
+        "acc": 0.9333333333333333
+      }
+    ],
+    "bestTuningResult": {
+      "K": 1,
+      "acc": 0.9666666666666667
+    },
+    "bestTestingResult": {
+      "K": 1,
+      "acc": 0.9333333333333333
+    }
+  }
