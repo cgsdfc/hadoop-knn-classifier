@@ -16,4 +16,7 @@ public interface EvalDataGenerator {
 
     // 这个方法用来生成所有测试数据集，并且写入sink中。
     public void generate(TextLineDataset originDataset, EvalDatasetSink sink) throws Exception;
+
+    // 返回测试方法的描述的字符串。
+    public String getSpecs();
 }

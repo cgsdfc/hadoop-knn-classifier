@@ -33,4 +33,9 @@ public class BoostrapDataGenerator implements EvalDataGenerator {
             sink.receive(dataset);
         }
     }
+
+    @Override
+    public String getSpecs() {
+        return String.format("boostrap-%d-times-%.1f-testSampleRatio", this.numTimes, this.testSampleRatio);
+    }
 }

@@ -6,4 +6,5 @@ public class EvaluationResult {
     public double std;
     public int K;
     public String datasetName;
+    public String resampleMethod;
 }

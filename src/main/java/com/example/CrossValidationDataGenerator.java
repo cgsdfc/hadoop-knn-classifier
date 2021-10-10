@@ -33,4 +33,9 @@ public class CrossValidationDataGenerator implements EvalDataGenerator {
             sink.receive(dataset);
         }
     }
+
+    @Override
+    public String getSpecs() {
+        return String.format("cv-%d-fold", this.numFolds);
+    }
 }

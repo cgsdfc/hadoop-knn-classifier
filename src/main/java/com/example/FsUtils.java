@@ -7,6 +7,9 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.URI;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FSDataOutputStream;
@@ -43,5 +46,12 @@ public class FsUtils {
 
     public static void remove(FileSystem fs, Path path) throws Exception {
         fs.delete(path, true);
+    }
+
+    public static void writeInJsonFormat(FileSystem fs, Path outPath, Object object) throws Exception {
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fs.create(outPath)));
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        gson.toJson(object, writer);
+        writer.close();
     }
 }

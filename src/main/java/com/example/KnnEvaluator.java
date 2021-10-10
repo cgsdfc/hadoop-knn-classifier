@@ -28,6 +28,7 @@ public class KnnEvaluator {
     private static final Path testingDatasetPath = new Path(evaluatorHome, "testing.csv");
     private static final Path outputDir = new Path(evaluatorHome, "result/");
     private static final Path configFilePath = new Path(evaluatorHome, "config.json");
+    private static final Path evaluationResultPath = new Path(evaluatorHome, "eval-result.json");
 
     public KnnEvaluator(EvalDataGenerator generator, KnnConfigData configData, Path originalDatasetPath)
             throws Exception {
@@ -44,13 +45,20 @@ public class KnnEvaluator {
                 KnnEvaluator.this.onReceiveEvalDataset(dataset);
             }
         });
+        EvaluationResult result = generateResult();
         cleanup();
+        return result;
+    }
+
+    private EvaluationResult generateResult() throws Exception {
         double[] meanAndStd = DataUtils.computeMeanAndStd(jobResults);
         EvaluationResult result = new EvaluationResult();
         result.mean = meanAndStd[0];
         result.std = meanAndStd[1];
         result.K = configData.k;
         result.datasetName = configData.ds;
+        result.resampleMethod = this.generator.getSpecs();
+        FsUtils.writeInJsonFormat(fileSystem, evaluationResultPath, result);
         return result;
     }
 
