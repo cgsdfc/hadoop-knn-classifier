@@ -18,11 +18,12 @@ public class KnnExperiment {
     private static final int trainingFileIndex = 1;
     private static final int resampleMethodIndex = 2;
 
-    private ConfigData configData;
+    private KnnExpConfigData configData;
 
     public static class DatasetInfo {
         public String datasetName;
         public String trainingFile;
+        public String testingFile;
     }
 
     public static class ResampleInfo {
@@ -30,13 +31,13 @@ public class KnnExperiment {
         public String[] resampleParams;
     }
 
-    public static class ConfigData {
+    public static class KnnExpConfigData {
         public int K;
         public DatasetInfo dsInfo;
         public ResampleInfo rsInfo;
     }
 
-    public KnnExperiment(ConfigData configData) {
+    public KnnExperiment(KnnExpConfigData configData) {
         this.configData = configData;
     }
 
@@ -49,7 +50,7 @@ public class KnnExperiment {
         EvalDataGenerator generator = EvalDataGeneratorFactory.create(//
                 configData.rsInfo.resampleMethod, //
                 configData.rsInfo.resampleParams);
-                
+
         KnnEvaluator evaluator = new KnnEvaluator(generator, config, new Path(trainingFile));
         return evaluator.doEvaluation();
     }
@@ -60,7 +61,7 @@ public class KnnExperiment {
             System.exit(3);
         }
 
-        ConfigData configData = new ConfigData();
+        KnnExpConfigData configData = new KnnExpConfigData();
 
         final String resampleMethod = args[resampleMethodIndex];
         String[] resampleParams = Arrays.copyOfRange(args, resampleMethodIndex + 1, args.length);
