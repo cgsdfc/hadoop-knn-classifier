@@ -5,8 +5,8 @@ public interface EvalDatasetsGenerator {
 
     // 这个类表示生成的其中一个测试数据集。一次测试可能需要多个测试数据集。
     public static class EvalDataset {
-        public TextLineDataset training;
-        public TextLineDataset testing;
+        public TextLineDataset training = new TextLineDataset();
+        public TextLineDataset testing = new TextLineDataset();
     }
 
     // 这个类用来接收生成的测试数据集。

@@ -9,6 +9,8 @@ import java.util.ArrayList;
 public class TextLineDataset {
     public ArrayList<String> data = new ArrayList<>();
 
+    public TextLineDataset() {}
+    
     public TextLineDataset(BufferedReader reader) throws IOException {
         String line;
         while ((line = reader.readLine()) != null) {
