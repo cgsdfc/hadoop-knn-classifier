@@ -1,12 +1,6 @@
 package com.example;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.Reader;
 import java.util.Arrays;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.apache.hadoop.fs.Path;
 
@@ -68,9 +62,7 @@ public class KnnExperiment {
         configData.rsInfo.resampleMethod = resampleMethod;
         configData.rsInfo.resampleParams = resampleParams;
 
-        Gson gson = new Gson();
-        Reader reader = new FileReader(new File(args[configFileIndex]));
-        KnnConfigData data = gson.fromJson(reader, KnnConfigData.class);
+        KnnConfigData data = FsUtils.readFromJsonFormatLocal(args[configFileIndex], KnnConfigData.class);
         configData.K = data.k;
         configData.dsInfo.datasetName = data.ds;
 
@@ -79,9 +71,7 @@ public class KnnExperiment {
 
         KnnExperiment experiment = new KnnExperiment(configData);
         EvaluationResult result = experiment.run();
-
-        gson = new GsonBuilder().setPrettyPrinting().create();
-        String string = gson.toJson(result);
+        String string = FsUtils.toJsonString(result);
         System.out.println(string);
     }
 
