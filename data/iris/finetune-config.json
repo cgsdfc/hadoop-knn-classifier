@@ -1,5 +1,7 @@
 {
-    "K": 1,
+    "Kmin": 1,
+    "Kstep": 5,
+    "Kmax": 100,
     "dsInfo": {
         "datasetName": "iris",
         "trainingFile": "/demo/data/iris/iris_training.csv",

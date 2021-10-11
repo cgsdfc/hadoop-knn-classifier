@@ -1,5 +1,7 @@
 {
-    "K": 1,
+    "Kmin": 1,
+    "Kstep": 5,
+    "Kmax": 100,
     "dsInfo": {
         "datasetName": "car_owners",
         "trainingFile": "/demo/data/car_owners/CarOwners_train.csv",
