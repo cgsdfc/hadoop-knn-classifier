@@ -10,6 +10,7 @@ public class KnnFineTune {
 
     private KnnFineTuneConfigData configData;
     private static final int numArgs = 2;
+    private static final String tag = "KnnFineTune";
 
     public static class KnnFineTuneConfigData {
         private int Kmin;
@@ -89,8 +90,13 @@ public class KnnFineTune {
 
     public FineTuneResult run() throws Exception {
         FineTuneResult finalExpResult = new FineTuneResult(this.configData);
+        LogUtils.info(tag, "finding best K on trainingFile %s", configData.dsInfo.trainingFile);
         findBestParams(finalExpResult);
+        LogUtils.info(tag, "done");
+        
+        LogUtils.info(tag, "running different Ks on testingFile %s", configData.dsInfo.testingFile);
         runOnTestingData(finalExpResult);
+        LogUtils.info(tag, "done");
         return finalExpResult;
     }
 

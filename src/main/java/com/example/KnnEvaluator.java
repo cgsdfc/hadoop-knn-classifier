@@ -29,6 +29,7 @@ public class KnnEvaluator {
     private static final Path outputDir = new Path(evaluatorHome, "result/");
     private static final Path configFilePath = new Path(evaluatorHome, "config.json");
     private static final Path evaluationResultPath = new Path(evaluatorHome, "eval-result.json");
+    private static final String tag = "KnnEvaluator";
 
     public KnnEvaluator(EvalDataGenerator generator, KnnConfigData configData, Path originalDatasetPath)
             throws Exception {
@@ -100,7 +101,10 @@ public class KnnEvaluator {
                 configFilePath.toString(), //
                 testingDatasetPath.toString(), //
                 trainingDatasetPath.toString(), outputDir.toString(), jobCount++);
+                
+        LogUtils.info(tag, "start job %s on dataset %s", job.getJobName(), configData.ds);
         job.runWithRetry();
+        LogUtils.info(tag, "done");
 
         // 获取结果文件。
         Path resultFile = null;

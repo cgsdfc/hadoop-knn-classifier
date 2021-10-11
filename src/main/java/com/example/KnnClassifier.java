@@ -104,7 +104,7 @@ public class KnnClassifier {
         FileOutputFormat.setOutputPath(job, new Path(this.outputDir));
 
         // 等待作业执行完成并返回状态码。
-        boolean ok = job.waitForCompletion(true);
+        boolean ok = job.waitForCompletion(false);
         if (!ok) {
             throw new Exception(String.format("Job %s failed", getJobName()));
         }

@@ -11,6 +11,7 @@ public class KnnExperiment {
     private static final int configFileIndex = 0;
     private static final int trainingFileIndex = 1;
     private static final int resampleMethodIndex = 2;
+    private static final String tag = "KnnExperiment";
 
     private KnnExpConfigData configData;
 
@@ -41,6 +42,7 @@ public class KnnExperiment {
         config.k = configData.K;
         final String trainingFile = configData.dsInfo.trainingFile;
 
+        LogUtils.info(tag, "start experiment K=%d, trainingFile=%s", config.k, configData.dsInfo.trainingFile);
         EvalDataGenerator generator = EvalDataGeneratorFactory.create(//
                 configData.rsInfo.resampleMethod, //
                 configData.rsInfo.resampleParams);
