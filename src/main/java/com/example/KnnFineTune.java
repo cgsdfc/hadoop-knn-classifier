@@ -15,22 +15,28 @@ public class KnnFineTune {
     private static final int numArgs = 3;
     private static final int defaultKmax = 10;
 
-    public static class SingleExpResult {
+    public static class TuningResult {
         public int K;
-        public double acc;
+        public double mean;
+        public double std;
+    }
+
+    public static class TestingResult {
+        public int K;
+        public double mean;
     }
 
     public static class FinalExpResult {
         KnnExpConfigData config;
-        public ArrayList<SingleExpResult> tuningResults = new ArrayList<>();
-        public ArrayList<SingleExpResult> testingResults = new ArrayList<>();
-        public SingleExpResult bestTuningResult = new SingleExpResult();
-        public SingleExpResult bestTestingResult = new SingleExpResult();
+        public ArrayList<TuningResult> tuningResults = new ArrayList<>();
+        public ArrayList<TestingResult> testingResults = new ArrayList<>();
+        public TuningResult bestTuningResult = new TuningResult();
+        public TestingResult bestTestingResult = new TestingResult();
 
         public FinalExpResult(KnnExpConfigData config) {
             this.config = config;
             bestTuningResult.K = bestTestingResult.K = -1;
-            bestTuningResult.acc = bestTestingResult.acc = -1;
+            bestTuningResult.mean = bestTestingResult.mean = -1;
         }
     }
 
@@ -45,11 +51,14 @@ public class KnnFineTune {
             configData.K = K;
             KnnExperiment experiment = new KnnExperiment(configData);
             EvaluationResult result = experiment.run();
-            SingleExpResult tuningResult = new SingleExpResult();
+            TuningResult tuningResult = new TuningResult();
             tuningResult.K = K;
-            tuningResult.acc = result.mean;
+            tuningResult.mean = result.mean;
+            tuningResult.std = result.std;
+
             finalExpResult.tuningResults.add(tuningResult);
-            if (tuningResult.acc > finalExpResult.bestTuningResult.acc) {
+            if (tuningResult.mean - tuningResult.std > finalExpResult.bestTuningResult.mean
+                    + finalExpResult.bestTuningResult.std) {
                 finalExpResult.bestTuningResult = tuningResult;
             }
         }
@@ -57,14 +66,15 @@ public class KnnFineTune {
 
     // 对于每个K值，都到测试集上去跑一下，看性能是不是最好的。
     private void runOnTestingData(FinalExpResult finalExpResult) throws Exception {
-        for (SingleExpResult result : finalExpResult.tuningResults) {
+        for (TuningResult result : finalExpResult.tuningResults) {
             KnnPredictor predictor = new KnnPredictor(result.K);
             ResultJsonData jsonData = predictor.predict(configData.dsInfo);
-            SingleExpResult testingResult = new SingleExpResult();
+            TestingResult testingResult = new TestingResult();
             testingResult.K = result.K;
-            testingResult.acc = jsonData.accuracy;
+            testingResult.mean = jsonData.accuracy;
             finalExpResult.testingResults.add(testingResult);
-            if (testingResult.acc > finalExpResult.bestTestingResult.acc) {
+            // 测试集上没有std。
+            if (testingResult.mean > finalExpResult.bestTestingResult.mean) {
                 finalExpResult.bestTestingResult = testingResult;
             }
 
