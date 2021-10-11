@@ -1,5 +1,7 @@
 package com.example;
 
+import java.util.concurrent.TimeoutException;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -46,13 +48,31 @@ public class KnnClassifier {
         job.run();
     }
 
+    public String getJobName() {
+        return "KNN-" + Integer.toString(this.id);
+    }
+
+    public void runWithRetry(int maxRetry, int sleepSeconds) throws Exception {
+        int count = 0;
+        while (true) {
+            if (run()) {
+                return;
+            }
+            if (count > maxRetry) {
+                throw new Exception(String.format("Job %s failed with %d retries\n", getJobName(), maxRetry));
+            }
+            ++count;
+            Thread.sleep(sleepSeconds * 1000);
+        }
+    }
+
     // 主函数。调用 MapReduce 的 Job API 来配置本次运行的相关设定，并且提交任务。
-    public void run() throws Exception {
+    public boolean run() throws Exception {
         // 创建配置对象。
         Configuration conf = new Configuration();
 
         // 创建 Job 对象。
-        Job job = Job.getInstance(conf, "KNN-" + Integer.toString(this.id));
+        Job job = Job.getInstance(conf, getJobName());
         // 设置要运行的Jar包，即KnnClassifier类所在的Jar包。
         job.setJarByClass(KnnClassifier.class);
 
@@ -77,9 +97,6 @@ public class KnnClassifier {
         FileOutputFormat.setOutputPath(job, new Path(this.outputDir));
 
         // 等待作业执行完成并返回状态码。
-        if (!job.waitForCompletion(true)) {
-            throw new Exception("Job failed");
-        }
-
+        return job.waitForCompletion(true);
     }
 }
