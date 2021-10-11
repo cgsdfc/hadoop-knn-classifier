@@ -1,0 +1,14 @@
+{
+    "K": 1,
+    "dsInfo": {
+        "datasetName": "",
+        "trainingFile": "/demo/data/car_owners/CarOwners_train.csv",
+        "testingFile": "/demo/data/car_owners/CarOwners_test.csv"
+    },
+    "rsInfo": {
+        "resampleMethod": "cv",
+        "resampleParams": [
+            "5"
+        ]
+    }
+}
