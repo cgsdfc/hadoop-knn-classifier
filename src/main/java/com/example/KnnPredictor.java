@@ -13,8 +13,6 @@ public class KnnPredictor {
     private static final Path predictorHome = new Path("/knn-pred/");
     private static final Path outputDir = new Path(predictorHome, "result/");
     private static final Path configFilePath = new Path(predictorHome, "config.json");
-    private static final int maxRetry = 3;
-    private static final int sleepSeconds = 2;
 
     public KnnPredictor(int K) {
         this.K = K;
@@ -40,7 +38,7 @@ public class KnnPredictor {
                 testingDatasetPath.toString(), //
                 trainingDatasetPath.toString(), outputDir.toString(), 0);
 
-        job.runWithRetry(maxRetry, sleepSeconds);
+        job.runWithRetry();
 
         // 获取结果文件。
         Path resultFile = null;

@@ -100,7 +100,7 @@ public class KnnEvaluator {
                 configFilePath.toString(), //
                 testingDatasetPath.toString(), //
                 trainingDatasetPath.toString(), outputDir.toString(), jobCount++);
-        job.run();
+        job.runWithRetry();
 
         // 获取结果文件。
         Path resultFile = null;
@@ -109,6 +109,9 @@ public class KnnEvaluator {
                 resultFile = f.getPath();
                 break;
             }
+        }
+        if (resultFile == null) {
+            throw new Exception("Job succeeded but result file not found");
         }
 
         // 从结果文件中获取准确率数据。

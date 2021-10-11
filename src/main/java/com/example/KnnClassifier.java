@@ -1,7 +1,5 @@
 package com.example;
 
-import java.util.concurrent.TimeoutException;
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -28,6 +26,9 @@ public class KnnClassifier {
     private static final int configFileIndex = 2;
     private static final int testingFileIndex = 3;
 
+    private static final int defaultMaxRetry = 3;
+    private static final int defaultSleepSeconds = 2;
+
     public KnnClassifier(String configFile, String testingFile, //
             String trainingFile, String outputDir, int id) {
         this.configFile = configFile;
@@ -52,22 +53,28 @@ public class KnnClassifier {
         return "KNN-" + Integer.toString(this.id);
     }
 
+    public void runWithRetry() throws Exception {
+        runWithRetry(defaultMaxRetry, defaultSleepSeconds);
+    }
+
     public void runWithRetry(int maxRetry, int sleepSeconds) throws Exception {
         int count = 0;
         while (true) {
-            if (run()) {
+            try {
+                run();
                 return;
+            } catch (Exception e) {
+                if (count > maxRetry) {
+                    throw new Exception(String.format("Job %s failed with %d retries\n", getJobName(), maxRetry));
+                }
+                ++count;
+                Thread.sleep(sleepSeconds * 1000);
             }
-            if (count > maxRetry) {
-                throw new Exception(String.format("Job %s failed with %d retries\n", getJobName(), maxRetry));
-            }
-            ++count;
-            Thread.sleep(sleepSeconds * 1000);
         }
     }
 
     // 主函数。调用 MapReduce 的 Job API 来配置本次运行的相关设定，并且提交任务。
-    public boolean run() throws Exception {
+    public void run() throws Exception {
         // 创建配置对象。
         Configuration conf = new Configuration();
 
@@ -97,6 +104,9 @@ public class KnnClassifier {
         FileOutputFormat.setOutputPath(job, new Path(this.outputDir));
 
         // 等待作业执行完成并返回状态码。
-        return job.waitForCompletion(true);
+        boolean ok = job.waitForCompletion(true);
+        if (!ok) {
+            throw new Exception(String.format("Job %s failed", getJobName()));
+        }
     }
 }
