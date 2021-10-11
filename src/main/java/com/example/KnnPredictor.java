@@ -27,7 +27,7 @@ public class KnnPredictor {
         KnnConfigData data = new KnnConfigData();
         data.k = this.K;
         data.ds = ds;
-        FsUtils.writeInJsonFormat(fileSystem, configFilePath, data);
+        FsUtils.writeInJsonFormatHDFS(fileSystem, configFilePath, data);
     }
 
     private ResultJsonData run(DatasetInfo dsInfo) throws Exception {

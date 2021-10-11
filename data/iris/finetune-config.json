@@ -8,7 +8,7 @@
     "rsInfo": {
         "resampleMethod": "cv",
         "resampleParams": [
-            "2"
+            "5"
         ]
     }
 }

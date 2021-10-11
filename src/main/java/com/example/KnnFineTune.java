@@ -12,7 +12,7 @@ public class KnnFineTune {
     private int Kstep = 1;
     private int Kmax = defaultKmax;
 
-    private static final int numArgs = 2;
+    private static final int numArgs = 3;
     private static final int defaultKmax = 10;
 
     public static class SingleExpResult {
@@ -80,16 +80,17 @@ public class KnnFineTune {
 
     public static void main(String[] args) throws Exception {
         if (args.length != numArgs) {
-            System.err.println("Usage: KnnFineTune <configFile> <Kmax>");
+            System.err.println("Usage: KnnFineTune <configFile> <Kmax> <outputFile>");
             System.exit(4);
         }
 
         KnnExpConfigData configData = FsUtils.readFromJsonFormatLocal(args[0], KnnExpConfigData.class);
         int Kmax = Integer.parseInt(args[1]);
+        String outputFile = args[2];
         KnnFineTune fineTune = new KnnFineTune(configData, Kmax);
         FinalExpResult result = fineTune.run();
-        String jsonString = FsUtils.toJsonString(result);
-        System.out.println(jsonString);
+        FsUtils.writeInJsonFormatLocal(outputFile, result);
+        System.out.println(FsUtils.toJsonString(result));
     }
 
 }

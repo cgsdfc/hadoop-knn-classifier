@@ -58,7 +58,7 @@ public class KnnEvaluator {
         result.K = configData.k;
         result.datasetName = configData.ds;
         result.resampleMethod = this.generator.getSpecs();
-        FsUtils.writeInJsonFormat(fileSystem, evaluationResultPath, result);
+        FsUtils.writeInJsonFormatHDFS(fileSystem, evaluationResultPath, result);
         return result;
     }
 
