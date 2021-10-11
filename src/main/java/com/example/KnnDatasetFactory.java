@@ -1,6 +1,7 @@
 package com.example;
 
 import java.util.Map;
+import java.io.IOException;
 import java.util.HashMap;
 
 // 这是一个单例模式的类，所有的 KnnDataset 都是由他返回的。
@@ -25,8 +26,12 @@ public class KnnDatasetFactory {
         return instance;
     }
 
-    public KnnDataset getDataset(String name) {
-        return nameToDataset.get(name);
+    public KnnDataset getDataset(String name) throws IOException {
+        KnnDataset ds = nameToDataset.get(name);
+        if (ds == null) {
+            throw new IOException(String.format("Invalid dataset name %s", name));
+        }
+        return ds;
     }
 
     public void registerDataset(String name, KnnDataset ds) {

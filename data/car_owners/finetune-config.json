@@ -1,7 +1,7 @@
 {
     "K": 1,
     "dsInfo": {
-        "datasetName": "",
+        "datasetName": "car_owners",
         "trainingFile": "/demo/data/car_owners/CarOwners_train.csv",
         "testingFile": "/demo/data/car_owners/CarOwners_test.csv"
     },
