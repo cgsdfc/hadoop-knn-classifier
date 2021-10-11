@@ -65,7 +65,7 @@ public class KnnClassifier {
                 return;
             } catch (Exception e) {
                 if (count > maxRetry) {
-                    throw new Exception(String.format("Job %s failed with %d retries\n", getJobName(), maxRetry));
+                    throw new Exception(String.format("Job %s failed with %d retries\n", getJobName(), maxRetry), e);
                 }
                 ++count;
                 Thread.sleep(sleepSeconds * 1000);
