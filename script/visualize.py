@@ -40,7 +40,7 @@ def createDataFrame(filename):
 def main():
     fileList = [
         # "data\\car_owners\\result\\finetune-result.json",
-        "data\\iris\\result\\finetune-result-2.json",
+        "data\\iris\\result\\finetune-result-3.json",
     ]
     for f in fileList:
         createDataFrame(f)
