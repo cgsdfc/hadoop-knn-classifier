@@ -3,7 +3,6 @@ package com.example;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -90,11 +89,12 @@ public class KnnClassifier {
         // 设置 MapReduce 任务的自定义类型。
         job.setMapperClass(KnnMapper.class);
         job.setReducerClass(KnnReducer.class);
+        job.setCombinerClass(KnnCombiner.class);
         job.setNumReduceTasks(1); // 本项目只需要一个 Reducer 任务。
 
         // 设置输出的键值类型。
         job.setMapOutputKeyClass(IntWritable.class);
-        job.setMapOutputValueClass(MapWritable.class);
+        job.setMapOutputValueClass(DoubleStringWritable.class);
         job.setOutputKeyClass(NullWritable.class);
         job.setOutputValueClass(Text.class);
 

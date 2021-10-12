@@ -5,15 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Reducer;
 
 // 自定义 Reducer 类型，把 Mapper 产生的数据进行汇总，导出最后的分类结果。
@@ -21,7 +15,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 // 但是在最后，我们要从K-邻域中产生一个分类结果，那就是要把占比最大的标签作为最终的分类标签。
 // 输出 Key 类型：为了增加可读性，我们用一个字符串来说明输出的内容，所以用Text作为类型。
 // 输出 Value 类型：表示的是分类的结果。
-public class KnnReducer extends Reducer<IntWritable, MapWritable, NullWritable, Text> {
+public class KnnReducer extends Reducer<IntWritable, DoubleStringWritable, NullWritable, Text> {
     // 保存K-邻域。
     private ArrayList<KSmallestMap> KnnMap = new ArrayList<KSmallestMap>();
     private KnnTestingDataset testingDataset;
@@ -38,20 +32,16 @@ public class KnnReducer extends Reducer<IntWritable, MapWritable, NullWritable, 
         }
     }
 
-    private static void reduceOneTestingRecord(KSmallestMap oneKnnMap, Iterable<MapWritable> values) {
-        for (MapWritable oneMap : values) {
-            for (Map.Entry<Writable, Writable> distanceAndLabel : oneMap.entrySet()) {
-                DoubleWritable dist = (DoubleWritable) distanceAndLabel.getKey();
-                Text label = (Text) distanceAndLabel.getValue();
-                oneKnnMap.put(dist.get(), label.toString());
-            }
+    private static void reduceOneTestingRecord(KSmallestMap oneKnnMap, Iterable<DoubleStringWritable> values) {
+        for (DoubleStringWritable value : values) {
+            oneKnnMap.put(value.getDoubleValue(), value.getStringValue());
         }
     }
 
     // 对同一个Key下的所有Value进行汇总。注意，我们的Mapper只产生了一个Key值，即NullWritable的单例，
     // 所以，所有的Value都会被汇总到一起。所以我们只需要一个Reducer即可处理全部数据。
     @Override
-    public void reduce(IntWritable key, Iterable<MapWritable> values, Context context)
+    public void reduce(IntWritable key, Iterable<DoubleStringWritable> values, Context context)
             throws IOException, InterruptedException {
         reduceOneTestingRecord(this.KnnMap.get(key.get()), values);
     }
@@ -94,8 +84,7 @@ public class KnnReducer extends Reducer<IntWritable, MapWritable, NullWritable, 
     @Override
     protected void cleanup(Context context) throws IOException, InterruptedException {
         ResultJsonData data = generateResult();
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String jsonString = gson.toJson(data);
+        String jsonString = FsUtils.toJsonString(data);
         context.write(NullWritable.get(), new Text(jsonString));
     }
 }
