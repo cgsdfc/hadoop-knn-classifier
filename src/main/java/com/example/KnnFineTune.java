@@ -107,7 +107,7 @@ public class KnnFineTune {
         }
 
         KnnFineTuneConfigData configData = FsUtils.readFromJsonFormatLocal(args[0], KnnFineTuneConfigData.class);
-        String outputFile = args[2];
+        String outputFile = args[1];
         KnnFineTune fineTune = new KnnFineTune(configData);
         FineTuneResult result = fineTune.run();
         FsUtils.writeInJsonFormatLocal(outputFile, result);

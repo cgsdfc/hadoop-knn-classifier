@@ -67,7 +67,7 @@ public class KnnEvaluator {
         fileSystem = FsUtils.getFileSystem();
         jobResults = new ArrayList<>();
         jobCount = 0;
-        // FsUtils.remove(fileSystem, evaluatorHome);
+        FsUtils.remove(fileSystem, evaluatorHome);
         fileSystem.mkdirs(evaluatorHome);
         writeConfigFile();
         readOriginalDataset();
