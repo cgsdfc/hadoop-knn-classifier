@@ -1,6 +1,7 @@
 package com.example;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.NullWritable;
@@ -17,6 +18,7 @@ public class KnnClassifier {
     private String testingFile;
     private String trainingFile;
     private String outputDir;
+    private FileSystem fs; // 用来删掉输出目录。
     private int id;
 
     private static final int numArgs = 4;
@@ -29,12 +31,13 @@ public class KnnClassifier {
     private static final int defaultSleepSeconds = 2;
 
     public KnnClassifier(String configFile, String testingFile, //
-            String trainingFile, String outputDir, int id) {
+            String trainingFile, String outputDir, int id) throws Exception {
         this.configFile = configFile;
         this.testingFile = testingFile;
         this.trainingFile = trainingFile;
         this.outputDir = outputDir;
         this.id = id;
+        this.fs = FsUtils.getFileSystem();
     }
 
     public static void main(String[] args) throws Exception {
@@ -74,6 +77,8 @@ public class KnnClassifier {
 
     // 主函数。调用 MapReduce 的 Job API 来配置本次运行的相关设定，并且提交任务。
     public void run() throws Exception {
+        FsUtils.remove(fs, new Path(this.outputDir));
+
         // 创建配置对象。
         Configuration conf = new Configuration();
 
@@ -104,7 +109,7 @@ public class KnnClassifier {
         FileOutputFormat.setOutputPath(job, new Path(this.outputDir));
 
         // 等待作业执行完成并返回状态码。
-        boolean ok = job.waitForCompletion(false);
+        boolean ok = job.waitForCompletion(true);
         if (!ok) {
             throw new Exception(String.format("Job %s failed", getJobName()));
         }

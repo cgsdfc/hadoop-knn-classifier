@@ -28,8 +28,8 @@ public class KnnExperiment {
 
     public static class KnnExpConfigData {
         public int K;
-        public DatasetInfo dsInfo;
-        public ResampleInfo rsInfo;
+        public DatasetInfo dsInfo = new DatasetInfo();
+        public ResampleInfo rsInfo = new ResampleInfo();
     }
 
     public KnnExperiment(KnnExpConfigData configData) {

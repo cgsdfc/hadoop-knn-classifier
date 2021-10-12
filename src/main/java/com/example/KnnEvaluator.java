@@ -40,6 +40,8 @@ public class KnnEvaluator {
 
     public EvaluationResult doEvaluation() throws Exception {
         setup();
+        LogUtils.info(tag, "resample method: %s", this.generator.getSpecs());
+
         this.generator.generate(this.originalDataset, new EvalDatasetSink() {
             @Override
             public void receive(EvalDataset dataset) throws Exception {
@@ -79,8 +81,7 @@ public class KnnEvaluator {
 
     // 写入配置文件。
     private void writeConfigFile() throws Exception {
-        Gson gson = new Gson();
-        String configString = gson.toJson(this.configData);
+        String configString = FsUtils.toJsonString(this.configData);
         FsUtils.write(fileSystem, configFilePath, configString);
     }
 
@@ -91,6 +92,9 @@ public class KnnEvaluator {
     }
 
     private void onReceiveEvalDataset(EvalDataset dataset) throws Exception {
+        LogUtils.info(tag, "recv %d testing, %d training from generator", dataset.testing.data.size(),
+                dataset.training.data.size());
+                
         // 把测试数据写入hdfs。覆盖原来文件
         FsUtils.writeLines(fileSystem, trainingDatasetPath, dataset.training.data);
         FsUtils.writeLines(fileSystem, testingDatasetPath, dataset.testing.data);
@@ -101,7 +105,7 @@ public class KnnEvaluator {
                 configFilePath.toString(), //
                 testingDatasetPath.toString(), //
                 trainingDatasetPath.toString(), outputDir.toString(), jobCount++);
-                
+
         LogUtils.info(tag, "start job %s on dataset %s", job.getJobName(), configData.ds);
         job.runWithRetry();
         LogUtils.info(tag, "done");
