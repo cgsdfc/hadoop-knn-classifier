@@ -29,9 +29,7 @@ def createDataFrame(filename):
     sns.lineplot(x="K", y="test_acc", data=df, label="test")
     plt.xlabel("K")
     plt.ylabel("Accuracy")
-    plt.xticks(Klist)
-    plt.title(f"Experiment on dataset {datasetName}")
-
+    # plt.setp(ax.get_xticklabels(), rotation=30, horizontalalignment="right")
     # plt.plot(Klist, meanList)
     plt.show()
     return df
@@ -39,8 +37,8 @@ def createDataFrame(filename):
 
 def main():
     fileList = [
-        # "data\\car_owners\\result\\finetune-result.json",
-        "data\\iris\\result\\finetune-result-3.json",
+        "data\\car_owners\\result\\finetune-result-4.json",
+        # "data\\iris\\result\\finetune-result-3.json",
     ]
     for f in fileList:
         createDataFrame(f)
