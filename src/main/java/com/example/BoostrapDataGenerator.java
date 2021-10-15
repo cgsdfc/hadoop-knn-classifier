@@ -5,16 +5,18 @@ import java.util.Random;
 public class BoostrapDataGenerator implements EvalDataGenerator {
     private int numTimes;
     private double testSampleRatio;
+    private Random random;
 
-    public BoostrapDataGenerator(int numTimes, double testSampleRatio) {
+    public BoostrapDataGenerator(int numTimes, double testSampleRatio, Random random) {
         this.numTimes = numTimes;
         this.testSampleRatio = testSampleRatio; // 0-1
+        this.random = random;
     }
 
     @Override
     public void generate(TextLineDataset originalDataset, EvalDatasetSink sink) throws Exception {
         final int numSamples = originalDataset.data.size();
-        final Random random = new Random();
+        final Random random = this.random;
         for (int i = 0; i < this.numTimes; ++i) {
             // The boostrapped dataset.
             TextLineDataset resampledData = new TextLineDataset();

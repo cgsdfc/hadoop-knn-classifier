@@ -5,9 +5,11 @@ import java.util.Random;
 
 public class CrossValidationDataGenerator implements EvalDataGenerator {
     private int numFolds;
+    private Random random;
 
-    public CrossValidationDataGenerator(int numFolds) {
+    public CrossValidationDataGenerator(int numFolds, Random random) {
         this.numFolds = numFolds;
+        this.random = random;
     }
 
     @Override
@@ -18,7 +20,7 @@ public class CrossValidationDataGenerator implements EvalDataGenerator {
             throw new Exception("numFold must >= originalDataset.size");
         }
 
-        Collections.shuffle(originalDataset.data, new Random());
+        Collections.shuffle(originalDataset.data, this.random);
         for (int i = 0; i < this.numFolds; ++i) {
             // 生成第i个Fold
             int testStart = i * foldSize;

@@ -21,15 +21,10 @@ public class KnnExperiment {
         public String testingFile;
     }
 
-    public static class ResampleInfo {
-        public String resampleMethod;
-        public String[] resampleParams;
-    }
-
     public static class KnnExpConfigData {
         public int K;
         public DatasetInfo dsInfo = new DatasetInfo();
-        public ResampleInfo rsInfo = new ResampleInfo();
+        public EvalDataGeneratorFactory.ResampleInfo rsInfo = new EvalDataGeneratorFactory.ResampleInfo();
     }
 
     public KnnExperiment(KnnExpConfigData configData) {
@@ -43,9 +38,7 @@ public class KnnExperiment {
         final String trainingFile = configData.dsInfo.trainingFile;
 
         LogUtils.info(tag, "start experiment K=%d, trainingFile=%s", config.k, configData.dsInfo.trainingFile);
-        EvalDataGenerator generator = EvalDataGeneratorFactory.create(//
-                configData.rsInfo.resampleMethod, //
-                configData.rsInfo.resampleParams);
+        EvalDataGenerator generator = EvalDataGeneratorFactory.create(configData.rsInfo);
 
         KnnEvaluator evaluator = new KnnEvaluator(generator, config, new Path(trainingFile));
         return evaluator.doEvaluation();

@@ -9,6 +9,7 @@
     },
     "rsInfo": {
         "resampleMethod": "cv",
+        "seed": -1,
         "resampleParams": [
             "5"
         ]

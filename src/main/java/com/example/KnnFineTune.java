@@ -17,7 +17,7 @@ public class KnnFineTune {
         private int Kstep;
         private int Kmax;
         public DatasetInfo dsInfo;
-        public ResampleInfo rsInfo;
+        public EvalDataGeneratorFactory.ResampleInfo rsInfo;
     }
 
     public static class TuningResult {
