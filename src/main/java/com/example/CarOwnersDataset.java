@@ -9,6 +9,20 @@ public class CarOwnersDataset implements KnnDataset {
         return new CarOwnerRecord(string);
     }
 
+    @Override
+    public double distance(KnnRecord _a, KnnRecord _b) {
+        if (!(_a instanceof CarOwnerRecord) && !(_b instanceof CarOwnerRecord)) {
+            return invalidDistance;
+        }
+        CarOwnerRecord a = (CarOwnerRecord) _a;
+        CarOwnerRecord b = (CarOwnerRecord) _b;
+        return DataUtils.sumOfSquares(a.age - b.age, //
+                a.income - b.income, //
+                DataUtils.nominalDistance(a.status, b.status), //
+                DataUtils.nominalDistance(a.gender, b.gender), //
+                a.children - b.children);
+    }
+
     public static class CarOwnerRecord implements KnnRecord {
         public double age;
         public double income;
@@ -42,22 +56,6 @@ public class CarOwnersDataset implements KnnDataset {
 
         public CarOwnerRecord(String str) {
             this(new StringTokenizer(str, ","));
-        }
-
-        public static double computeDistance(CarOwnerRecord a, CarOwnerRecord b) {
-            return DataUtils.sumOfSquares(a.age - b.age, //
-                    a.income - b.income, //
-                    DataUtils.nominalDistance(a.status, b.status), //
-                    DataUtils.nominalDistance(a.gender, b.gender), //
-                    a.children - b.children);
-        }
-
-        @Override
-        public double distance(KnnRecord other) {
-            if (other instanceof CarOwnerRecord) {
-                return computeDistance(this, (CarOwnerRecord) other);
-            }
-            return KnnRecord.invalidDistance;
         }
 
         @Override

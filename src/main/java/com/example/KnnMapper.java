@@ -34,7 +34,7 @@ public class KnnMapper extends Mapper<Object, Text, IntWritable, DoubleStringWri
         // 计算每个测试实例和训练实例的距离。
         for (int i = 0; i < testingDataset.size(); ++i) {
             // 计算训练实例和测试实例的距离。
-            double distance = KnnRecord.computeDistance(testingDataset.get(i), trainingRecord);
+            double distance = configFile.dataset.distance(testingDataset.get(i), trainingRecord);
             context.write(new IntWritable(i), new DoubleStringWritable(distance, trainingRecord.getLabel()));
         }
     }
