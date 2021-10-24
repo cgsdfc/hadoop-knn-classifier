@@ -1,8 +1,8 @@
-package com.example.api;
+package com.example.experiment;
 
 import java.util.ArrayList;
 
-import com.example.api.KnnExperiment.*;
+import com.example.experiment.KnnExperiment.*;
 import com.example.knn.ResultJsonData;
 import com.example.resampler.ResampleInfo;
 import com.example.utils.FsUtils;

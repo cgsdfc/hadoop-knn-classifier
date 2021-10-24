@@ -1,4 +1,4 @@
-package com.example.api;
+package com.example.experiment;
 
 // 评估结果，准确率的平均值和标准差。
 public class EvaluationResult {

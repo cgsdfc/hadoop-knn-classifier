@@ -1,4 +1,4 @@
-package com.example.api;
+package com.example.experiment;
 
 public class DatasetInfo {
     public String datasetName;

@@ -1,4 +1,4 @@
-package com.example.api;
+package com.example.experiment;
 
 import com.example.knn.KnnClassifier;
 import com.example.knn.KnnConfigData;
