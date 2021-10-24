@@ -1,6 +1,13 @@
-package com.example;
+package com.example.api;
 
 import java.util.Arrays;
+
+import com.example.knn.KnnConfigData;
+import com.example.resampler.EvalDataGenerator;
+import com.example.resampler.EvalDataGeneratorFactory;
+import com.example.resampler.ResampleInfo;
+import com.example.utils.FsUtils;
+import com.example.utils.LogUtils;
 
 import org.apache.hadoop.fs.Path;
 
@@ -15,16 +22,10 @@ public class KnnExperiment {
 
     private KnnExpConfigData configData;
 
-    public static class DatasetInfo {
-        public String datasetName;
-        public String trainingFile;
-        public String testingFile;
-    }
-
     public static class KnnExpConfigData {
         public int K;
         public DatasetInfo dsInfo = new DatasetInfo();
-        public EvalDataGeneratorFactory.ResampleInfo rsInfo = new EvalDataGeneratorFactory.ResampleInfo();
+        public ResampleInfo rsInfo = new ResampleInfo();
     }
 
     public KnnExperiment(KnnExpConfigData configData) {

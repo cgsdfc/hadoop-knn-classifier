@@ -1,6 +1,8 @@
-package com.example;
+package com.example.dataset;
 
 import java.util.StringTokenizer;
+
+import com.example.utils.DataUtils;
 
 public class IrisDataset implements KnnDataset {
 

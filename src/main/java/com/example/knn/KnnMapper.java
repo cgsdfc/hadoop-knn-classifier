@@ -1,6 +1,8 @@
-package com.example;
+package com.example.knn;
 
 import java.io.IOException;
+
+import com.example.dataset.KnnRecord;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;

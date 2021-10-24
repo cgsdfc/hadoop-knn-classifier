@@ -1,4 +1,4 @@
-package com.example;
+package com.example.utils;
 
 // 简单的日志模块。
 public class LogUtils {

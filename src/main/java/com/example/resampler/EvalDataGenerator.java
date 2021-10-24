@@ -1,4 +1,4 @@
-package com.example;
+package com.example.resampler;
 
 // 这个类负责生成评估数据集，并且把每个生成的数据集写入一个sink里。
 public interface EvalDataGenerator {

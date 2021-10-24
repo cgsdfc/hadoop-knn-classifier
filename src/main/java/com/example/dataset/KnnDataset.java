@@ -1,4 +1,4 @@
-package com.example;
+package com.example.dataset;
 
 public interface KnnDataset {
 

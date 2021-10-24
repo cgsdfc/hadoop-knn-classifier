@@ -1,4 +1,4 @@
-package com.example;
+package com.example.resampler;
 
 import java.util.Random;
 

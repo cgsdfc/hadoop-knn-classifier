@@ -1,9 +1,11 @@
-package com.example;
+package com.example.knn;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.example.utils.FsUtils;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.NullWritable;

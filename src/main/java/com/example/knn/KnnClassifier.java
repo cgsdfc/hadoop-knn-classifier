@@ -1,4 +1,6 @@
-package com.example;
+package com.example.knn;
+
+import com.example.utils.FsUtils;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;

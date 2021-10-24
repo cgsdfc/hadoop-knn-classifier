@@ -1,10 +1,13 @@
-package com.example;
+package com.example.knn;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import com.example.dataset.KnnRecord;
+
 import java.net.URI;
 
 import org.apache.hadoop.mapreduce.Job;

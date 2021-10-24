@@ -6,7 +6,7 @@ input_data=/demo/data/iris/iris_training.csv # 训练数据集，hdfs中的路�
 output_dir=/demo/result/$(tempfile) # 输出目录，hdfs中的路径（请确保不存在）。
 params_file=/demo/data/iris/KnnParams.json # 配置文件，hdfs中的路径（请确保已经上传）。
 jar_file=/home/cong/Code/demo/target/demo-1.0.jar # 项目构建产生的Jar包（请修改为实际的路径）。
-class_name=com.example.KnnClassifier # 项目主类名，不需要修改。
+class_name=com.example.knn.KnnClassifier # 项目主类名，不需要修改。
 testing_file=/demo/data/iris/iris_test.csv # 测试数据。
 
 # 先确保jar包是最新的。

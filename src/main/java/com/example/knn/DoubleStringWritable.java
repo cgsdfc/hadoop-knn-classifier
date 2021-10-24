@@ -1,4 +1,4 @@
-package com.example;
+package com.example.knn;
 
 import org.apache.hadoop.io.Writable;
 

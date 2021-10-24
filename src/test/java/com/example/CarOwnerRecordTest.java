@@ -2,7 +2,8 @@ package com.example;
 
 import static org.junit.Assert.assertEquals;
 
-import com.example.CarOwnersDataset.CarOwnerRecord;
+import com.example.dataset.CarOwnersDataset.CarOwnerRecord;
+
 import org.junit.Test;
 
 public class CarOwnerRecordTest {

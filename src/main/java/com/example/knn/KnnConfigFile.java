@@ -1,10 +1,12 @@
-package com.example;
+package com.example.knn;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.Charset;
 
+import com.example.dataset.KnnDataset;
+import com.example.dataset.KnnDatasetFactory;
 import com.google.gson.Gson;
 
 import org.apache.commons.io.FileUtils;

@@ -2,6 +2,8 @@ package com.example;
 
 import static org.junit.Assert.assertTrue;
 
+import com.example.knn.KSmallestMap;
+
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,7 +1,10 @@
-package com.example;
+package com.example.dataset;
+
+import static com.example.utils.DataUtils.minMaxNormalize;
 
 import java.util.StringTokenizer;
-import static com.example.DataUtils.minMaxNormalize;
+
+import com.example.utils.DataUtils;
 
 public class CarOwnersDataset implements KnnDataset {
     @Override

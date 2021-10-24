@@ -1,8 +1,12 @@
-package com.example;
+package com.example.api;
 
 import java.util.ArrayList;
 
-import com.example.KnnExperiment.*;
+import com.example.api.KnnExperiment.*;
+import com.example.knn.ResultJsonData;
+import com.example.resampler.ResampleInfo;
+import com.example.utils.FsUtils;
+import com.example.utils.LogUtils;
 
 // 实现一个比较基本的调参过程。
 // 在训练集上，通过交叉检验来获取比较好的K值，然后在测试数据集上看性能。
@@ -17,7 +21,7 @@ public class KnnFineTune {
         private int Kstep;
         private int Kmax;
         public DatasetInfo dsInfo;
-        public EvalDataGeneratorFactory.ResampleInfo rsInfo;
+        public ResampleInfo rsInfo;
     }
 
     public static class TuningResult {

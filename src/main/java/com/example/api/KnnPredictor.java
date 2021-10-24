@@ -1,6 +1,10 @@
-package com.example;
+package com.example.api;
 
-import com.example.KnnExperiment.DatasetInfo;
+import com.example.knn.KnnClassifier;
+import com.example.knn.KnnConfigData;
+import com.example.knn.ResultJsonData;
+import com.example.utils.FsUtils;
+
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;

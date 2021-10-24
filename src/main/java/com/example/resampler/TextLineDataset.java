@@ -1,4 +1,4 @@
-package com.example;
+package com.example.resampler;
 
 import java.io.BufferedReader;
 import java.io.IOException;

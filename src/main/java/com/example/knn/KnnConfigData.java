@@ -1,4 +1,4 @@
-package com.example;
+package com.example.knn;
 
 public class KnnConfigData {
     // 注意：字段顺序要和配置文件的顺序一致。并且名字也要一致。

@@ -1,17 +1,11 @@
-package com.example;
+package com.example.resampler;
 
 import java.util.Random;
 
 // 这个类负责实例化 EvalDataGenerator 对象。
 public class EvalDataGeneratorFactory {
 
-    private static final int noSeed = -1;
-
-    public static class ResampleInfo {
-        public String resampleMethod;
-        public int seed = noSeed;
-        public String[] resampleParams;
-    }
+    static final int noSeed = -1;
 
     public static final String boostrapName = "boostrap";
     public static final String crossValidateName = "cv";

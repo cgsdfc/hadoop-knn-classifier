@@ -1,4 +1,4 @@
-package com.example;
+package com.example.knn;
 
 import java.util.ArrayList;
 
