@@ -22,7 +22,7 @@ $$
 Pr(Y=j|X=x_0)=\frac{1}{K} \sum_{i \in N_0} I(y_i = j)
 $$
 
-This formula shows that given $x_0$, the conditional probability of $Y=j$ is equal to the proportion of all training instances labeled $j$ in the K neighborhood to the size K of the K neighborhood. It can also be seen as an approximation of the conditional probability of the Bayesian optimal classifier.
+This formula shows that given $x_0$, the conditional probability of $Y=j$ is equal to the proportion of all training instances labeled $j$ in the K neighborhood to K. It can also be seen as an approximation of the conditional probability of the Bayesian optimal classifier.
 
 
 ### 1.2 MapReduce KNN classifier
