@@ -1,4 +1,11 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
-    "python.formatting.provider": "black"
+    "python.formatting.provider": "black",
+    "java.compile.nullAnalysis.mode": "disabled",
+    "grammarly.selectors": [
+        {
+            "language": "markdown",
+            "scheme": "file"
+        }
+    ]
 }

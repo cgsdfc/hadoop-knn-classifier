@@ -1,44 +1,39 @@
-# 基于 Hadoop MapReduce 的 K 近邻分类器
+# Hadoop $k$-nearest-neighbors classifier
 
-## 项目简介
+## Introduction
 
-本项目基于虚拟机上搭建的 Hadoop 集群，用 Java 实现了 MapReduce 框架下的K近邻分类器算法，
-并在一个小规模数据集上验证了算法实现的正确性。
+Based on the Hadoop cluster built on the virtual machine, this project implemented the K-nearest-neighbors classifier algorithm under the MapReduce framework in Java and verified the correctness of the algorithm implementation on a small-scale dataset.
 
-- [算法和软件架构](docs/算法和软件架构.md)
-- [实验结果](docs/实验结果.md)
-
+- [Algorithm and software architecture](docs/algorithm-architecture.md)
+- [Experimental results](docs/experimental-results.md)
 
 
-## K 近邻分类器
+## The basic idea of the KNN classifier
 
-K 近邻分类器（K-Nearest-Neighbors Classifier），简称 KNN 分类器，是一种无参数模型，
-它的基本思想是：给定训练数据集 Train 和一个测试实例 S，计算 S 和 Train 中所有实例的距离，
-取距离最近的 K 个训练集实例，则预测S的标签为这些实例中占比最大的标签。
+K-Nearest Neighbors Classifier is a parameterless model. Its basic idea is: given the training data set Train and a test case $S$, calculate the distance between $S$ and all the instances in Train, take the nearest K training set instances, and the predicted $S$ label is the label with the largest proportion in these instances.
 
-KNN 分类器的数学表达式如下：
+
+The KNN classifier can be formulated as follows:
 $$
 Pr(Y=j|X=x_0)=\frac{1}{K} \sum_{i \in N_0} I(y_i = j)
 $$
-这个式子表明：给定 x0，Y=j 的条件概率等于在K邻域内所有标签为 j 的训练实例占K邻域的大小 K 的比例。
-这是对贝叶斯最优分类器的条件概率公式的一个近似。
 
-## 基于 MapReduce 的 KNN 分类器
-
-由于KNN分类器需要计算测试实例和所有训练实例的距离，所以时间复杂度比较高，算法对大数据的扩展性不好。在 Hadoop 分布式文件系统 HDFS 和 并行计算框架 MapReduce 的帮助下，我们可以对 KNN 分类算法进行加速。基于 MapReduce 的 KNN 分类器的基本思想，就是把训练数据分布到各个服务器，同时计算训练实例和测试实例的距离，由于不同训练实例与测试实例的距离的计算是彼此无关，正好符合MapReduce框架的特性，因此能获得很好的加速效果，也易于编程实现。
+This formula shows that given $x_0$, the conditional probability of $Y=j$ is equal to the proportion of all training instances labeled $j$ in the K neighborhood to the size K of the K neighborhood. It can also be seen as an approximation of the conditional probability of the Bayesian optimal classifier.
 
 
+## MapReduce KNN classifier
 
-## 项目构建方法
+Because the KNN classifier needs to calculate the distance between test cases and all training cases, the time complexity is relatively high, and the algorithm has poor scalability to big data. With the help of the Hadoop distributed file system and parallel computing framework MapReduce, we can accelerate the KNN classification algorithm. The basic idea of the MapReduce-based KNN classifier is to distribute the training data to each server and calculate the distance between the training instance and the test instance at the same time. Since the distance between different training instances and the test instance is calculated independently of each other, which just conforms to the characteristics of the MapReduce framework, it can achieve a good acceleration effect and is easy to program.
 
-本项目使用 Maven 作为构建工具，构建过程比较自动化。
-构建本项目的命令如下（以 Ubuntu 操作系统为例）：
+
+## Build
+
+Maven is used as the construction tool in this project, and the construction process is automated.
+The command to build this project is as follows (taking the Ubuntu operating system as an example):
 
 ```shell
-$ sudo apt-get install mvn # 安装 Maven，如果已经安装可忽略。
-$ cd mapreduce-knn-demo # 进入项目根目录。
-$ mvn package # 编译产生 Jar 包。
+$ sudo apt-get install mvn
+$ cd hadoop-knn-classifier && mvn package
 ```
 
-除了在命令行进行构建，本项目也支持用主流 IDE（如 Eclipse，IDEA等）进行构建，
-只需在 IDE 中导入为 Maven 项目即可。
+In addition to building on the command line, this project also supports building with mainstream IDEs (such as Eclipse, IDEA, etc.), just importing them into the IDE as Maven projects.
