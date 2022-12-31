@@ -8,8 +8,9 @@ import com.example.resampler.ResampleInfo;
 import com.example.utils.FsUtils;
 import com.example.utils.LogUtils;
 
-// 实现一个比较基本的调参过程。
-// 在训练集上，通过交叉检验来获取比较好的K值，然后在测试数据集上看性能。
+// Implement a relatively basic parameter tuning process.
+// On the training set, obtain a better K value through cross-validation, 
+// and then look at the performance on the test data set.
 public class KnnFineTune {
 
     private KnnFineTuneConfigData configData;
@@ -53,7 +54,7 @@ public class KnnFineTune {
         this.configData = configData;
     }
 
-    // 对每个K值，通过交叉检验来找到性能最好的。
+    // For each value of K, cross-check to find the best performer.
     private void findBestParams(FineTuneResult fineTuneResult) throws Exception {
         KnnExpConfigData expConfigData = new KnnExpConfigData();
         expConfigData.dsInfo = this.configData.dsInfo;
@@ -75,7 +76,8 @@ public class KnnFineTune {
         }
     }
 
-    // 对于每个K值，都到测试集上去跑一下，看性能是不是最好的。
+    // For each K value, run it on the test set to see if the performance is the
+    // best.
     private void runOnTestingData(FineTuneResult funeTuneResult) throws Exception {
         for (TuningResult result : funeTuneResult.tuningResults) {
             KnnPredictor predictor = new KnnPredictor(result.K);
@@ -84,11 +86,9 @@ public class KnnFineTune {
             testingResult.K = result.K;
             testingResult.mean = jsonData.accuracy;
             funeTuneResult.testingResults.add(testingResult);
-            // 测试集上没有std。
             if (testingResult.mean > funeTuneResult.bestTestingResult.mean) {
                 funeTuneResult.bestTestingResult = testingResult;
             }
-
         }
     }
 
@@ -97,7 +97,7 @@ public class KnnFineTune {
         LogUtils.info(tag, "finding best K on trainingFile %s", configData.dsInfo.trainingFile);
         findBestParams(finalExpResult);
         LogUtils.info(tag, "done");
-        
+
         LogUtils.info(tag, "running different Ks on testingFile %s", configData.dsInfo.testingFile);
         runOnTestingData(finalExpResult);
         LogUtils.info(tag, "done");

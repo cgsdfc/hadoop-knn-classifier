@@ -4,7 +4,7 @@ import java.util.Map;
 import java.io.IOException;
 import java.util.HashMap;
 
-// 这是一个单例模式的类，所有的 KnnDataset 都是由他返回的。
+// This is a singleton class. All KnnDatasets are returned by him.
 public class KnnDatasetFactory {
 
     private Map<String, KnnDataset> nameToDataset = new HashMap<String, KnnDataset>();

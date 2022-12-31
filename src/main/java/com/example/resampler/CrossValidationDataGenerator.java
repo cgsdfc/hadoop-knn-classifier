@@ -22,7 +22,7 @@ public class CrossValidationDataGenerator implements EvalDataGenerator {
 
         Collections.shuffle(originalDataset.data, this.random);
         for (int i = 0; i < this.numFolds; ++i) {
-            // 生成第i个Fold
+            // Generate the i-th fold
             int testStart = i * foldSize;
             int testEnd = Math.min(testStart + foldSize, numSamples);
             EvalDataset dataset = new EvalDataset();

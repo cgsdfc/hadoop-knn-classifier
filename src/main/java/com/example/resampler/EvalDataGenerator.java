@@ -1,22 +1,25 @@
 package com.example.resampler;
 
-// 这个类负责生成评估数据集，并且把每个生成的数据集写入一个sink里。
+// This class is responsible for generating evaluation datasets and 
+// writing each generated dataset to a sink.
 public interface EvalDataGenerator {
 
-    // 这个类表示生成的其中一个测试数据集。一次测试可能需要多个测试数据集。
+    /// This class represents one of the generated test datasets.
+    // A test may require multiple test datasets.
     public static class EvalDataset {
         public TextLineDataset training = new TextLineDataset();
         public TextLineDataset testing = new TextLineDataset();
     }
 
-    // 这个类用来接收生成的测试数据集。
+    // This class is used to receive the generated test dataset.
     public static interface EvalDatasetSink {
         public void receive(EvalDataset dataset) throws Exception;
     }
 
-    // 这个方法用来生成所有测试数据集，并且写入sink中。
+    // This method is used to generate all test data sets and write them into the
+    // sink.
     public void generate(TextLineDataset originDataset, EvalDatasetSink sink) throws Exception;
 
-    // 返回测试方法的描述的字符串。
+    // Returns a string describing the test method.
     public String getSpecs();
 }

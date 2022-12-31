@@ -21,7 +21,6 @@ public class BoostrapDataGenerator implements EvalDataGenerator {
             // The boostrapped dataset.
             TextLineDataset resampledData = new TextLineDataset();
             for (int j = 0; j < numSamples; ++j) {
-                // 欧皇十连抽。
                 int draw = random.nextInt(numSamples);
                 resampledData.data.add(originalDataset.data.get(draw));
             }

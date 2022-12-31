@@ -1,7 +1,8 @@
 package com.example.knn;
 
 public class KnnConfigData {
-    // 注意：字段顺序要和配置文件的顺序一致。并且名字也要一致。
+    // Note: The order of the fields should be consistent with the order of the
+    // configuration file. And the name should be the same.
     public int k;
-    public String ds; // name of the dataset.F
+    public String ds; // name of the dataset.
 }

@@ -11,7 +11,7 @@ import com.example.utils.LogUtils;
 
 import org.apache.hadoop.fs.Path;
 
-// 这个类是KnnEvaluator的封装，提供更加高级的接口。
+// This class is the encapsulation of KnnEvaluator, providing a more advanced interface.
 public class KnnExperiment {
 
     private static final int numArgs = 3;

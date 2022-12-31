@@ -1,6 +1,6 @@
 package com.example.utils;
 
-// 简单的日志模块。
+// A simple logging module.
 public class LogUtils {
     private static void log(String level, String tag, String fmt, Object... args) {
         System.err.format("[%s] %s: %s\n", level, tag, String.format(fmt, args));

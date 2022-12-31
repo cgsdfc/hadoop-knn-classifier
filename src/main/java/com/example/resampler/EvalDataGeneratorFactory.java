@@ -2,7 +2,7 @@ package com.example.resampler;
 
 import java.util.Random;
 
-// 这个类负责实例化 EvalDataGenerator 对象。
+// This class is responsible for instantiating EvalDataGenerator objects.
 public class EvalDataGeneratorFactory {
 
     static final int noSeed = -1;

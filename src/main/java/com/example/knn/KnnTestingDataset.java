@@ -16,7 +16,8 @@ public class KnnTestingDataset {
 
     private ArrayList<KnnRecord> records = new ArrayList<>();
 
-    // 用这个符号链接来访问文件，就不需要知道原来的文件名是什么了。
+    // By using this symbolic link to access the file, you don't need to know what
+    // the original file name was.
     private static final String symlink = "knnTesingFile";
 
     public static void initialize(Job job, String testingFilename) throws Exception {

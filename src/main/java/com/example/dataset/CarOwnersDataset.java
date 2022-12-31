@@ -34,8 +34,10 @@ public class CarOwnersDataset implements KnnDataset {
         public double children;
         public String model;
 
-        // 有些字段有最大和最小值，可以利用它们把相应的字段正则化。
-        // 正则化可以使总的距离不受某个字段的大小的影响。
+        // Some fields have maximum and minimum values, which can be used to regularize
+        // the corresponding fields.
+        // Regularization can make the total distance independent of the size of a
+        // field.
         public static final double minAge = 18;
         public static final double maxAge = 77;
         public static final double minIncome = 5000;
@@ -48,7 +50,7 @@ public class CarOwnersDataset implements KnnDataset {
         }
 
         public CarOwnerRecord(StringTokenizer st) {
-            // 解析各个字段的数据。
+            // Parse the data of each field.
             this.age = minMaxNormalize(nextDouble(st), minAge, maxAge);
             this.income = minMaxNormalize(nextDouble(st), minIncome, maxIncome);
             this.status = st.nextToken();

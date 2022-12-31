@@ -5,7 +5,8 @@ import java.util.TreeMap;
 import java.util.Set;
 import java.util.Map.Entry;
 
-// 实现了一个最多只能保存K个最小元素的有序集合。实际上保存的是训练样本和测试样本的距离及其标签。
+//Implements an ordered collection that can only hold at most k smallest elements. 
+// What is actually saved is the distance between the training sample and the test sample and its label.
 public class KSmallestMap {
     private TreeMap<Double, String> data;
     private int K;
@@ -17,7 +18,7 @@ public class KSmallestMap {
 
     public void put(Double key, String value) {
         data.put(key, value);
-        // 注意不超过K个条目。
+        // Take care that there are no more than k entries.
         if (data.size() > K) {
             data.remove(data.lastKey());
         }
@@ -26,7 +27,7 @@ public class KSmallestMap {
     public int size() {
         return data.size();
     }
-    
+
     public Collection<String> values() {
         return data.values();
     }

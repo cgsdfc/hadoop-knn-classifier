@@ -9,7 +9,7 @@ import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
-// 这是对 KnnClassifier 的封装。
+//This is a wrapper around KnnClassifier.
 public class KnnPredictor {
     private int K;
     private FileSystem fileSystem;
@@ -36,7 +36,7 @@ public class KnnPredictor {
         final String testingDatasetPath = dsInfo.testingFile;
         final String trainingDatasetPath = dsInfo.trainingFile;
 
-        // 运行knn分类器任务。
+        // Run the knn classifier task.
         KnnClassifier job = new KnnClassifier(//
                 configFilePath.toString(), //
                 testingDatasetPath.toString(), //
@@ -44,7 +44,7 @@ public class KnnPredictor {
 
         job.runWithRetry();
 
-        // 获取结果文件。
+        // Get the result file.
         Path resultFile = null;
         for (FileStatus f : fileSystem.listStatus(outputDir)) {
             if (f.getLen() > 0) {
@@ -53,7 +53,7 @@ public class KnnPredictor {
             }
         }
 
-        // 从结果文件中获取准确率数据。
+        // Get the accuracy data from the result file.
         return FsUtils.readFromJsonFormatHDFS(fileSystem, resultFile.toString(), ResultJsonData.class);
     }
 

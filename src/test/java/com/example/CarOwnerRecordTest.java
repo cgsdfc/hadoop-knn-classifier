@@ -18,7 +18,7 @@ public class CarOwnerRecordTest {
         assertEquals(record.gender, "Male");
         assertEquals(record.model, "Zafira");
 
-        // 以下属性经过了正则化，不能直接测试。
+        // The following properties are regularized and cannot be tested directly.
         // assertEquals(record.children, 1, delta);
         // assertEquals(record.age, 21, delta);
         // assertEquals(record.income, 28460, delta);

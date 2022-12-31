@@ -1,5 +1,8 @@
 # 基于 Hadoop MapReduce 的 K 近邻分类器
 
+[English version](README.md)
+
+
 ## 项目简介
 
 本项目基于虚拟机上搭建的 Hadoop 集群，用 Java 实现了 MapReduce 框架下的K近邻分类器算法，
@@ -35,9 +38,8 @@ $$
 构建本项目的命令如下（以 Ubuntu 操作系统为例）：
 
 ```shell
-$ sudo apt-get install mvn # 安装 Maven，如果已经安装可忽略。
-$ cd mapreduce-knn-demo # 进入项目根目录。
-$ mvn package # 编译产生 Jar 包。
+$ sudo apt-get install mvn
+$ cd mapreduce-knn-demo && mvn package
 ```
 
 除了在命令行进行构建，本项目也支持用主流 IDE（如 Eclipse，IDEA等）进行构建，

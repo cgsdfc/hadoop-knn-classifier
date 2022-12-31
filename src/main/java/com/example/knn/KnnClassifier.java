@@ -12,15 +12,15 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-// 这个类负责配置并且运行一个KNN分类器的任务，它是原来的
-// KnnClassifier 的main逻辑的封装。
+//This class is responsible for configuring and running a KNN classifier task, which is the original
+//Encapsulation of the main logic of KnnClassifier.
 public class KnnClassifier {
 
     private String configFile;
     private String testingFile;
     private String trainingFile;
     private String outputDir;
-    private FileSystem fs; // 用来删掉输出目录。
+    private FileSystem fs; // Used to delete the output directory.
     private int id;
 
     private static final int numArgs = 4;
@@ -43,7 +43,7 @@ public class KnnClassifier {
     }
 
     public static void main(String[] args) throws Exception {
-        // 命令行参数有误。
+        // The command line parameter is wrong.
         if (args.length != numArgs) {
             System.err.println("Usage: KnnClassifier <trainingFile> <outputDir> <configFile> <testingFile>");
             System.exit(2);
@@ -77,40 +77,44 @@ public class KnnClassifier {
         }
     }
 
-    // 主函数。调用 MapReduce 的 Job API 来配置本次运行的相关设定，并且提交任务。
+    // main function. Call the Job API of MapReduce to
+    // configure the relevant settings of this run and submit the task.
     public void run() throws Exception {
         FsUtils.remove(fs, new Path(this.outputDir));
 
-        // 创建配置对象。
+        // Create a configuration object.
         Configuration conf = new Configuration();
 
-        // 创建 Job 对象。
+        // Create a Job object.
         Job job = Job.getInstance(conf, getJobName());
-        // 设置要运行的Jar包，即KnnClassifier类所在的Jar包。
+        // Set the jar package to be run, that is, the jar package where the knn
+        // classifier class is located.
         job.setJarByClass(KnnClassifier.class);
 
-        // 把配置文件设定为 CacheFile，则后续各台服务器均可访问它的副本，从而减少小文件的传输开销。
+        // If the configuration file is set to CacheFile, each subsequent server can
+        // access its copy, thereby reducing the transmission overhead of small files.
         KnnConfigFile.initialize(job, this.configFile);
         KnnTestingDataset.initialize(job, this.testingFile);
 
-        // 设置 MapReduce 任务的自定义类型。
+        // Set a custom type of MapReduce job.
         job.setMapperClass(KnnMapper.class);
         job.setReducerClass(KnnReducer.class);
         job.setCombinerClass(KnnCombiner.class);
-        job.setNumReduceTasks(1); // 本项目只需要一个 Reducer 任务。
+        job.setNumReduceTasks(1); // This project requires only one Reducer task.
 
-        // 设置输出的键值类型。
+        // Sets the output key-value type.
         job.setMapOutputKeyClass(IntWritable.class);
         job.setMapOutputValueClass(DoubleStringWritable.class);
         job.setOutputKeyClass(NullWritable.class);
         job.setOutputValueClass(Text.class);
 
-        // 设置输入文件（训练数据集）的路径和输出目录的路径。
-        // 分类结果将作为一个文件保存在输出目录下。
+        // Set the path to the input file (training dataset) and the path to the output
+        // directory.
+        // The classification result will be saved as a file in the output directory.
         FileInputFormat.addInputPath(job, new Path(this.trainingFile));
         FileOutputFormat.setOutputPath(job, new Path(this.outputDir));
 
-        // 等待作业执行完成并返回状态码。
+        // Wait for the job execution to complete and return a status code.
         boolean ok = job.waitForCompletion(true);
         if (!ok) {
             throw new Exception(String.format("Job %s failed", getJobName()));

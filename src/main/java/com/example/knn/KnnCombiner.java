@@ -9,7 +9,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 public class KnnCombiner extends Reducer<IntWritable, DoubleStringWritable, IntWritable, DoubleStringWritable> {
     private int K;
 
-    // 从配置文件获取算法参数K。
+    // Get the algorithm parameter k from the configuration file.
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
         if (context.getCacheFiles() != null && context.getCacheFiles().length > 0) {
@@ -18,7 +18,8 @@ public class KnnCombiner extends Reducer<IntWritable, DoubleStringWritable, IntW
         }
     }
 
-    // 对于某个测试样本的所有候选，我们只保留距离最小的K个即可。
+    // For all candidates of a test sample, we only keep the k with the smallest
+    // distance.
     @Override
     public void reduce(IntWritable key, Iterable<DoubleStringWritable> values, Context context)
             throws IOException, InterruptedException {

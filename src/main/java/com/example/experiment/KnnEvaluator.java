@@ -20,7 +20,7 @@ import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
-// 这个类负责输入文件的准备，输出文件的回收，作业的运行等。
+// This class is responsible for the preparation of input files, recycling of output files, running jobs, etc.
 public class KnnEvaluator {
 
     private FileSystem fileSystem;
@@ -87,13 +87,13 @@ public class KnnEvaluator {
         fileSystem.close();
     }
 
-    // 写入配置文件。
+    // Write configuration file.
     private void writeConfigFile() throws Exception {
         String configString = FsUtils.toJsonString(this.configData);
         FsUtils.write(fileSystem, configFilePath, configString);
     }
 
-    // 读入原始数据集。
+    // Read in the raw dataset.
     private void readOriginalDataset() throws Exception {
         BufferedReader reader = FsUtils.openTextFile(this.fileSystem, this.originalDatasetPath);
         this.originalDataset = new TextLineDataset(reader);
@@ -102,13 +102,13 @@ public class KnnEvaluator {
     private void onReceiveEvalDataset(EvalDataset dataset) throws Exception {
         LogUtils.info(tag, "recv %d testing, %d training from generator", dataset.testing.data.size(),
                 dataset.training.data.size());
-                
-        // 把测试数据写入hdfs。覆盖原来文件
+
+        // Write test data to hdfs. overwrite original file
         FsUtils.writeLines(fileSystem, trainingDatasetPath, dataset.training.data);
         FsUtils.writeLines(fileSystem, testingDatasetPath, dataset.testing.data);
         FsUtils.remove(fileSystem, outputDir);
 
-        // 运行knn分类器任务。
+        // Run the knn classifier task.
         KnnClassifier job = new KnnClassifier(//
                 configFilePath.toString(), //
                 testingDatasetPath.toString(), //
@@ -118,7 +118,7 @@ public class KnnEvaluator {
         job.runWithRetry();
         LogUtils.info(tag, "done");
 
-        // 获取结果文件。
+        // Get the result file.
         Path resultFile = null;
         for (FileStatus f : fileSystem.listStatus(outputDir)) {
             if (f.getLen() > 0) {
@@ -130,7 +130,7 @@ public class KnnEvaluator {
             throw new Exception("Job succeeded but result file not found");
         }
 
-        // 从结果文件中获取准确率数据。
+        // Get the accuracy data from the result file.
         Gson gson = new Gson();
         Reader reader = FsUtils.openTextFile(fileSystem, resultFile);
         ResultJsonData jsonData = gson.fromJson(reader, ResultJsonData.class);
