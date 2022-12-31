@@ -1,18 +1,18 @@
 # Experimental result
 
-## Experiment purpose
+## 1. Experiment purpose
 
 As a classification algorithm, KNN has two main parameters. The first is the value of K, which determines the range of the algorithm to search for a feasible solution near the test sample, and has a key impact on the performance; The other is a function to measure the distance between two samples. The most common ones are European distance and Manhattan distance. The main purpose of this experiment is to observe the rule that the performance of the algorithm changes with the change of the K value on the premise that the distance function is unchanged. From the perspective of parameter tuning, this experiment can also be interpreted as finding the K value that makes the algorithm perform optimally. Therefore, this experiment can also be called a "K value tuning experiment".
 
 
-## Experimental configuration
+## 2. Experimental configuration
 
-### Datasets used
+### 2.1 Datasets used
 
 Two datasets were used in this experiment, namely, the Iris dataset and CarOwners dataset. In the Iris dataset, we predict flower types (iris of 4 varieties) according to three features of the sample, such as calyx length. In the CarOwners dataset, we predict the car model based on the age, gender, income, and other characteristics of the car owner. In terms of sample size, the Iris dataset has about 100 samples, while the CarOwners dataset has 2500 samples.
 
 
-### Experimental methods
+### 2.2 Experimental methods
 
 For each data set, we first divide all data into a test set and a training set. Taking the Iris data set as an example, the following two files are generated:
 
@@ -36,14 +36,14 @@ $$
 
 We will show the search results of the K value in detail in Experimental Results and Analysis.
 
-### Software and hardware environment
+### 2.3 Software and hardware environment
 
 This experiment is based on Ubuntu 20.04 operating system, VMWare Pro 15.05 virtual machine platform, Hadoop 3.1.3, JDK-8, and Windows 10 host operating system.
 
 
-## Experimental Results and Analysis
+## 3. Experimental Results and Analysis
 
-#### Iris dataset
+#### 3.1 Iris dataset
 
 On the Iris dataset, the curve of algorithm performance versus the K value is shown in the following figure. The blue curve represents the cross-validation performance of the algorithm on the training set, and the red curve represents the performance data of the algorithm with the training set as the training sample and the test set as the test sample.
 
@@ -66,7 +66,7 @@ In the two experiments with large and small K ranges, we observed that the trend
 ![](../figure/iris-1.png)
 
 
-#### CarOwners dataset
+#### 3.2 CarOwners dataset
 
 For the CarOwners dataset, we also conducted a similar experiment. The number of training and test samples for the cross-validation performance experiment and test set performance experiment is shown in the following table:
 
@@ -84,7 +84,7 @@ To further determine the optimal K value, we reduced the step size within the ab
 It can be seen that the two curves are not synchronized at many extreme points. For example, the blue curve has a maximum at K=13, while the red curve has a minimum at K=13. However, the overall trend of the two curves is to rise first and then decline, which indicates that the curve graph shows the situation near the maximum of the above large-scale curve graph. Regarding the optimal value of K, we find that the blue curve gets the maximum value at K=16, while the red curve gets the maximum value at K=10, which is relatively close. This shows that the estimation of the optimal value of K obtained from the training data is very close to the optimal value of K on the test set, which shows that our parameter adjustment strategy is effective.
 
 
-## Conclusions
+## 4. Conclusions
 
 This experiment uses cross-validation to find the optimal K value on two datasets with scale differences and verifies the validity of the K value obtained by cross-validation on the corresponding test set. This experiment has the following conclusions:
 
@@ -93,7 +93,7 @@ This experiment uses cross-validation to find the optimal K value on two dataset
 3. The larger the number of samples in the data set, the closer the performance curve of cross-validation is to the performance curve of the test set so that the optimal parameter values obtained by cross-validation based on the training set are closer to the true optimal parameter values on the test set.
 
 
-## Future improvements
+## 5. Future improvements
 
 This experiment has the following shortcomings, which can be improved as follows:
 
