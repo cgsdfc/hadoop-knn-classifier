@@ -7,12 +7,10 @@ Here we introduce the implementation details of the MapReduce KNN algorithm. The
 The input of the algorithm is the training data set and the test data set, as well as the parameter K. The output of the algorithm is the tag prediction value of each test sample and the accuracy of this prediction. The algorithm distributes configuration files and test dataset files to each machine through the Distributed File Cache, while the training dataset is used as the input file of MapReduce, which is split by the system and transferred to Mapper for subsequent processing. The algorithm uses a Key to mark each test sample, and a pair of floating point numbers and strings to represent the distance between a training sample and a test sample, as well as the label of the training sample. This data structure can be formally defined as a triple:
 
 $$
-triple\equiv (id,dist,label) \\
-\text{where } id\in \mathbb{N},dist\in\mathbb{R},label\text{ is a string.}
+triple\equiv (id,dist,label), \text{where } id\in \mathbb{N},dist\in\mathbb{R},label\text{ is a string.}
 $$
-The whole algorithm revolves around processing such triples.
 
-The algorithm is mainly implemented by three classes, and their functions are listed as follows:
+The algorithm is mainly implemented in terms of three classes, and their functions are listed as follows:
 
 - `KnnMapper` calculates the distance between one input training sample and all test samples and outputs the distance and the label of training samples.
 - `KnnCombiner` only retains up to K distance label pairs for the same test sample.
