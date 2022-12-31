@@ -15,6 +15,7 @@ K-Nearest Neighbors Classifier is a parameterless model. Its basic idea is: give
 
 
 The KNN classifier can be formulated as follows:
+
 $$
 Pr(Y=j|X=x_0)=\frac{1}{K} \sum_{i \in N_0} I(y_i = j)
 $$
@@ -24,7 +25,7 @@ This formula shows that given $x_0$, the conditional probability of $Y=j$ is equ
 
 ## MapReduce KNN classifier
 
-Because the KNN classifier needs to calculate the distance between test cases and all training cases, the time complexity is relatively high, and the algorithm has poor scalability to big data. With the help of the Hadoop distributed file system and parallel computing framework MapReduce, we can accelerate the KNN classification algorithm. The basic idea of the MapReduce-based KNN classifier is to distribute the training data to each server and calculate the distance between the training instance and the test instance at the same time. Since the distance between different training instances and the test instance is calculated independently of each other, which just conforms to the characteristics of the MapReduce framework, it can achieve a good acceleration effect and is easy to program.
+Because the KNN classifier needs to calculate the distance between test cases and all training cases, the time complexity is relatively high, and the algorithm has poor scalability to big data. With the help of the Hadoop distributed file system and parallel computing framework MapReduce, we can accelerate the KNN classification algorithm. The basic idea of the MapReduce KNN classifier is to distribute the training data to each server and calculate the distance between the training instance and the test instance at the same time. Since the distance between different training instances and the test instance is calculated independently of each other, which just conforms to the characteristics of the MapReduce framework, it can achieve a good acceleration effect and is easy to program.
 
 
 ## Build
