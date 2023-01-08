@@ -13,3 +13,4 @@ buildNumber.properties
 nohup.out
 .vscode
 .DS_Store
+.idea
